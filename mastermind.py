@@ -71,7 +71,3 @@ def mastermind(nomber_mystere, essai=0):
         return
     else:
         mastermind(nomber_mystere, essai+1)
-
-
-number=randint(0,9999)
-mastermind(str(number))

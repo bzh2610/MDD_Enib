@@ -1,8 +1,6 @@
 # coding: utf8
 from termcolor import colored
-#from mastermind import *
 import time
-
 
 def ls():
     print colored("Steve est connecté, 'ls' permet de lister les fichiers, voyons ce qu'il y a sur ce serveur ..\n ", 'yellow')
@@ -32,14 +30,9 @@ def sudo():
         for i in range(0, 100):
             print colored("INTERNAL ERROR", 'red')
             time.sleep(0.01)
-        print colored(" /$$   /$$  /$$$$$$   /$$$$$$  /$$   /$$ /$$$$$$$$ /$$$$$$$\n| $$  | $$ /$$__  $$ /$$__  $$| $$  /$$/| $$_____/| $$__  $$\n | $$  | $$| $$  \ $$| $$  \__/| $$ /$$/ | $$      | $$  \ $$\n| $$$$$$$$| $$$$$$$$| $$      | $$$$$/  | $$$$$   | $$  | $$\n | $$__  $$| $$__  $$| $$      | $$  $$  | $$__/   | $$  | $$\n | $$  | $$| $$  | $$| $$    $$| $$\  $$ | $$      | $$  | $$\n | $$  | $$| $$  | $$|  $$$$$$/| $$ \  $$| $$$$$$$$| $$$$$$$/\n |__/  |__/|__/  |__/ \______/ |__/  \__/|________/|_______/", 'green')
-        print ("logout\nSaving session...\n...copying shared history...\n...saving history...truncating history files...\n...completed.\nDeleting expired sessions...33 completed.")
-        print colored("FILE SYSTEM ENCRYPTED, PLEASE ENTRER PASSWORD", 'red')
-        print colored("Il semblerait que quelquechose se soit très mal passé..\nVoyons si il est possible de débloquer ça..\n", 'yellow')
-        number=randint(0,9999)
-        mastermind(str(number))
 
 
+print colored(" /$$   /$$  /$$$$$$   /$$$$$$  /$$   /$$ /$$$$$$$$ /$$$$$$$\n| $$  | $$ /$$__  $$ /$$__  $$| $$  /$$/| $$_____/| $$__  $$\n | $$  | $$| $$  \ $$| $$  \__/| $$ /$$/ | $$      | $$  \ $$\n| $$$$$$$$| $$$$$$$$| $$      | $$$$$/  | $$$$$   | $$  | $$\n | $$__  $$| $$__  $$| $$      | $$  $$  | $$__/   | $$  | $$\n | $$  | $$| $$  | $$| $$    $$| $$\  $$ | $$      | $$  | $$\n | $$  | $$| $$  | $$|  $$$$$$/| $$ \  $$| $$$$$$$$| $$$$$$$/\n |__/  |__/|__/  |__/ \______/ |__/  \__/|________/|_______/", 'green')
 print colored("Steve travaille chez AllSecure, une grande société spécialisée dans le sécurité informatique. Il doit mettre à jour l'un des vieux serveur de la société. \n", 'yellow')
 null=raw_input("Entrée pour continuer")
 ls()
