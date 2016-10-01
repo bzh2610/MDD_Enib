@@ -20,9 +20,11 @@ import tty
 import sys
 import termios
 import time
+import os
 
+repertoire=os.path.dirname(os.path.abspath(__file__))
 plateau=[]
-for j in range(20):
+for j in range(29):
     plateau.append([' '] * 100) #3 lignes, 20 caracteres
 
 def strcmp(a, b): #Compare deux chaines de texte
@@ -39,7 +41,7 @@ def personnage(x, y): #Ecriture du personnage sur le tableau de jeu
     plateau[y+1][x]=" "
     plateau[y+1][x+1]="|"
 
-def erase_player(x, y): #Efface le personnage du tableau
+def erase_player(x, y):#Efface le personnage du tableau
     plateau[y][x]=" "
     plateau[y][x-1]=" "
     plateau[y][x+1]=" "
@@ -55,7 +57,9 @@ def get_player_pos(): #Obtenir les coordonnées du joueur sous forme de liste
                 return [i, j+1]
 
 def clear(): #Effacer la console entre les mouvements
-    for i in range(40):
+    load_board()
+    afficher_carte()
+    for i in range(5):
         print '\n'
 
 def afficher_carte(): #Afficher le plateau
@@ -68,17 +72,39 @@ def afficher_carte(): #Afficher le plateau
 
 def deplacer_personnage(x, y): #Déplacer le perso
     position=get_player_pos()
-    erase_player(position[0], position[1])
-    personnage(position[0]+x, position[1]+y)
+    #erase_player(position[0], position[1])
     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_settings)
     clear()
+    load_board()
+    personnage(position[0]+x, position[1]+y)
     afficher_carte()
     tty.setraw(sys.stdin)
 
+def load_board():
+    i=0
+    j=0
+    f= open(repertoire+"/level1.txt", 'r')
+    for line in f.readlines():
+        j+=1
+        i=0
+
+        for ch in line:
+                if(strcmp(ch, '\n') or strcmp(ch, 'E')):
+                    plateau[j][i]=' '
+
+                else:
+                    plateau[j][i]=ch
+                    i+=1
+    f.close()
 
 
-personnage(3,15)
+
+
+print get_player_pos()
+load_board()
+personnage(5,10)
 afficher_carte()
+#print plateau
 
 #Regalges entree textuelle
 orig_settings = termios.tcgetattr(sys.stdin)
