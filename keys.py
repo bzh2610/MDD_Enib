@@ -72,7 +72,7 @@ def afficher_carte(): #Afficher le plateau
 
 def deplacer_personnage(x, y): #Déplacer le perso
     position=get_player_pos()
-    #erase_player(position[0], position[1])
+    erase_player(position[0], position[1])
     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_settings)
     clear()
     load_board()
@@ -102,9 +102,18 @@ def load_board():
 
 print get_player_pos()
 load_board()
-personnage(5,10)
+personnage(5,26)
 afficher_carte()
 #print plateau
+
+def request_move(x, y):
+    position=get_player_pos()
+    load_board()
+    if strcmp(plateau[position[1]+y+1][position[0]+x], '_'): #position[1]+y+1 = position + deplacement + tete personnage
+        personnage(position[0], position[1])
+        deplacer_personnage(x, y)
+    else:
+        personnage(position[0], position[1])
 
 #Regalges entree textuelle
 orig_settings = termios.tcgetattr(sys.stdin)
@@ -114,12 +123,12 @@ while entree != chr(27) : # ESC
     entree=sys.stdin.read(1)[0]
     #Gestion déplacements
     if (strcmp(entree, 'D') or strcmp(entree, 'd')):
-        deplacer_personnage(1, 0)
+        request_move(1, 0)
     if (strcmp(entree, 'Z') or strcmp(entree, 'z')):
-        deplacer_personnage(0, -1)
+        request_move(0, -1)
     if (strcmp(entree, 'Q') or strcmp(entree, 'q')):
-        deplacer_personnage(-1, 0)
+        request_move(-1, 0)
     if (strcmp(entree, 'S') or strcmp(entree, 's')):
-        deplacer_personnage(0, 1)
+        request_move(0, 1)
 
 termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_settings)
