@@ -1,7 +1,8 @@
 # coding: utf8
 from termcolor import colored
-#from mastermind import *
+from random import randint
 import time
+import mastermind
 
 
 def ls():
@@ -20,8 +21,8 @@ def mv():
         sudo()
 
 def sudo():
-    print colored("Error: unsufficient permissions, make you you have super-user rights", 'red')
-    print colored("Ohoh, rééssayons avec sudo [commande], en tant qu'administrateur, cela marchera", 'yellow')
+    print colored("Error: unsufficient permissions, do you have super-user rights ?", 'red')
+    print colored("Ohoh, rééssayons avec sudo [commande]. En tant qu'administrateur, cela marchera", 'yellow')
     entree=raw_input("Steve@iCorporate: ")
     if (entree.startswith('sudo')):
         entree=raw_input('Password: ')
@@ -35,9 +36,11 @@ def sudo():
         print colored(" /$$   /$$  /$$$$$$   /$$$$$$  /$$   /$$ /$$$$$$$$ /$$$$$$$\n| $$  | $$ /$$__  $$ /$$__  $$| $$  /$$/| $$_____/| $$__  $$\n | $$  | $$| $$  \ $$| $$  \__/| $$ /$$/ | $$      | $$  \ $$\n| $$$$$$$$| $$$$$$$$| $$      | $$$$$/  | $$$$$   | $$  | $$\n | $$__  $$| $$__  $$| $$      | $$  $$  | $$__/   | $$  | $$\n | $$  | $$| $$  | $$| $$    $$| $$\  $$ | $$      | $$  | $$\n | $$  | $$| $$  | $$|  $$$$$$/| $$ \  $$| $$$$$$$$| $$$$$$$/\n |__/  |__/|__/  |__/ \______/ |__/  \__/|________/|_______/", 'green')
         print ("logout\nSaving session...\n...copying shared history...\n...saving history...truncating history files...\n...completed.\nDeleting expired sessions...33 completed.")
         print colored("FILE SYSTEM ENCRYPTED, PLEASE ENTRER PASSWORD", 'red')
+        temp=raw_input("Press enter to continue..")
         print colored("Il semblerait que quelquechose se soit très mal passé..\nVoyons si il est possible de débloquer ça..\n", 'yellow')
         number=randint(0,9999)
-        mastermind(str(number))
+        mastermind.play(str(number))
+        print colored("Filesystem UNLOCKED\n", 'green')
 
 
 print colored("Steve travaille chez AllSecure, une grande société spécialisée dans le sécurité informatique. Il doit mettre à jour l'un des vieux serveur de la société. \n", 'yellow')

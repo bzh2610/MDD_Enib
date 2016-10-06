@@ -51,11 +51,11 @@ def check_combinations(nomber_mystere, entry, essai):
 
     else:
         print "ERROR: Input does not match the password strcture."
-        mastermind(nomber_mystere, essai)
+        play(nomber_mystere, essai)
 
 
 
-def mastermind(nomber_mystere, essai=0):
+def play(nomber_mystere, essai=0):
 
     if(essai==0):
         print "Le système de fichiers de l'entreprise a été crypté, je dois lancer une attaque par brut-force afin de le retrouver..."
@@ -70,4 +70,4 @@ def mastermind(nomber_mystere, essai=0):
         print "OK, réussi en "+str(essai)+" essais."
         return
     else:
-        mastermind(nomber_mystere, essai+1)
+        play(nomber_mystere, essai+1)
