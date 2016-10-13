@@ -25,6 +25,7 @@ import sys
 import time
 import os
 import time
+import codecs
 
 from strings import *
 import controls
@@ -58,17 +59,18 @@ def load_board(UI_file, plateau):
     UI_file=repertoire+'/'+UI_file
     i=0
     j=0
-    f= open(UI_file, 'r')
+    f= codecs.open(UI_file, 'r', "utf-8")
     for line in f.readlines():
         j+=1
         i=0
 
         for ch in line:
+
                 if strcmp(ch, '\n'):
                     plateau[j][i]=' '
 
                 else:
-                    plateau[j][i]=ch
+                    plateau[j][i]=ch.encode('utf-8')
                     i+=1
     f.close()
     return plateau
