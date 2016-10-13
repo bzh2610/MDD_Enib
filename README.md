@@ -35,3 +35,8 @@ Les modules suivants ont été importés:
 1-Cloner le repository
 
 2-Lancer le main.py (python /path/to/main.py)
+
+
+Note:
+Pour obtenir le nombre de ligne codées en python:
+ find . \( -name '*.py' \) -not -path "./termcolor.py" -print | xargs wc -l
