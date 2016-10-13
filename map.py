@@ -23,7 +23,7 @@ for j in range(29):
 
 #print controls.get_player_pos(plateau)
 UI_file='map.txt'
-UI.load_board('map.txt', plateau)
+plateau=UI.load_board('map.txt', plateau)
 UI.write_player(40,15, plateau)
 UI.display_map(plateau)
 #print plateau
@@ -38,16 +38,27 @@ entry = 0
 while entry != chr(27) : # ESC
     entry=sys.stdin.read(1)[0]
     if (strcmp(entry, 'E') or strcmp(entry, 'e')):
-        x,y=UI.get_map_position(plateau)
-        #print x,y
-        if(x==0 and y==0):
-            UI_file='iSecure.txt'
-            UI.clear(UI_file, plateau)
-            UI.load_board(UI_file, plateau)
-            UI.write_player(55, 25, plateau)
-            UI.display_map(plateau)
-            #termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_settings)
-            #menu.iSecure()
+        #E provoque une action: changement de carte/interraction
+        if(UI_file=="map.txt"):
+            x,y=UI.get_map_position(plateau)
+            #print x,y
+            if(x==0 and y==0):
+                UI_file='iSecure.txt'
+                UI.clear(UI_file, plateau)
+                UI.load_board(UI_file, plateau)
+                UI.write_player(55, 25, plateau)
+                UI.display_map(plateau)
+                #termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_settings)
+                #menu.iSecure()
+        else:
+            x,y=controls.get_player_pos(plateau)
+            if(x=63 and y>=26): #Joeuur sur la case de sortie
+                UI_file='map.txt'
+                UI.clear(UI_file, plateau)
+                UI.load_board(UI_file, plateau)
+                UI.write_player(40, 15, plateau)
+                UI.display_map(plateau)
+
 
 
 
