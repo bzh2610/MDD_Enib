@@ -34,6 +34,12 @@ show_main_menu(screen)
 set_orig_settings()
 orig_settings = get_orig_settings()
 
+#COMMENT OUT FOR PROD
+map.init()
+show_main_menu(screen)
+#END
+
+'''
 commande=""
 while commande != 'exit' : # ESC
 
@@ -45,4 +51,4 @@ while commande != 'exit' : # ESC
     elif(commande=="exit"):
         break
     else:
-        show_main_menu(screen)
+        show_main_menu(screen)'''

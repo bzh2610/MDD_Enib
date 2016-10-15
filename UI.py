@@ -44,7 +44,7 @@ def strcmp(a, b): #Compare deux chaines de texte
 def clear(UI_file, plateau): #Effacer la console entre les mouvements
     load_board(UI_file, plateau)
     display_map(plateau)
-    for i in range(2):
+    for i in range(30):
         print '\n'
 
 
@@ -56,6 +56,13 @@ Return: plateau
 
 '''
 def load_board(UI_file, plateau):
+
+    #Erase board
+    for j in range (len(plateau)):
+        for i in range (len(plateau[j])):
+            plateau[j][i]=' '
+
+    #Load
     UI_file=repertoire+'/'+UI_file
     i=0
     j=0
@@ -114,15 +121,15 @@ def get_map_position(plateau):
     x=position[0]
     map_x =0
     map_y=0
-    if (4<x and x<15):
+    if (5<x and x<16):
         map_x=1
-    elif (16<x and x<27):
+    elif (17<x and x<28):
         map_x=2
-    elif (28<x and x<39):
+    elif (29<x and x<40):
         map_x=3
-    elif (40<x and x<51):
+    elif (41<x and x<52):
         map_x=4
-    elif (52<x and x<63):
+    elif (53<x and x<64):
         map_x=5
 
     return [map_x, map_y]
