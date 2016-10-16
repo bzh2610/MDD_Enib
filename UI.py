@@ -93,15 +93,18 @@ Return: - : displays map
 def display_map(plateau): #Afficher le plateau
     out=''
     for j in range (0, len(plateau)):
+
         for i in range (0, len(plateau[j])):
-            if(plateau[j][i]=='@'):
-                out=out+'_'
-            elif(plateau[j][i]=='&'):
-                out=out+'|'
-            elif(plateau[j][i]=='*'):
-                out=out+' '
-            else:
-                out=out+str(plateau[j][i])
+                if(plateau[j][i]=='@'):
+                    out=out+'_'
+                elif(plateau[j][i]=='&'):
+                    out=out+'|'
+                elif(plateau[j][i]=='*'):
+                    out=out+' '
+                elif(plateau[j][i]=='A' and j==1):
+                    out=out+'█'
+                else:
+                    out=out+str(plateau[j][i])
         #out=out+'\n'
     print out+'\n'
 
@@ -145,13 +148,17 @@ Return: -
 
 
 def write_player(x, y, plateau): #Ecriture du personnage sur le tableau de jeu
-    plateau[y][x]="="
-    plateau[y][x-1]="="
-    plateau[y][x+1]="="
-    plateau[y-1][x]=get_head_symbol()
-    plateau[y+1][x-1]="|"
-    plateau[y+1][x]=" "
-    plateau[y+1][x+1]="|"
+    if(plateau[1][0]=='A'):
+        plateau[y][x]=get_head_symbol()
+
+    else:
+        plateau[y][x]="="
+        plateau[y][x-1]="="
+        plateau[y][x+1]="="
+        plateau[y-1][x]=get_head_symbol()
+        plateau[y+1][x-1]="|"
+        plateau[y+1][x]=" "
+        plateau[y+1][x+1]="|"
 
 
 '''
@@ -163,10 +170,13 @@ Return: -
 '''
 
 def erase_player(x, y, plateau):#Efface le personnage du tableau
-    plateau[y][x]=" "
-    plateau[y][x-1]=" "
-    plateau[y][x+1]=" "
-    plateau[y-1][x]=" "
-    plateau[y+1][x-1]=" "
-    plateau[y+1][x]=" "
-    plateau[y+1][x+1]=" "
+    if(plateau[1][0]=='A'):
+        plateau[y][x]=" "
+    else:
+        plateau[y][x]=" "
+        plateau[y][x-1]=" "
+        plateau[y][x+1]=" "
+        plateau[y-1][x]=" "
+        plateau[y+1][x-1]=" "
+        plateau[y+1][x]=" "
+        plateau[y+1][x+1]=" "

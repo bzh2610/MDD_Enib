@@ -32,10 +32,16 @@ def init():
     for j in range(31):
         plateau.append([' '] * 100) #3 lignes, 20 caracteres
 
+    '''labyrinthe
+        UI_file='labyrinthe.txt'
+        plateau=UI.load_board(UI_file, plateau)
+        UI.write_player(70,1, plateau)
+        UI.display_map(plateau)
+    '''
     #print controls.get_player_pos(plateau)
     UI_file='map.txt'
-    plateau=UI.load_board('map.txt', plateau)
-    UI.write_player(40,15, plateau)
+    plateau=UI.load_board(UI_file, plateau)
+    UI.write_player(41,14, plateau)
     UI.display_map(plateau)
     #print plateau
 
@@ -86,7 +92,12 @@ def init():
 
                 if(x>=23 and x<=42 and y>=11 and y<=18):
                     UI_file="labyrinthe.txt"
-                    change_map(UI_file, 71, 2,plateau)
+                    change_map(UI_file, 70, 2,plateau)
+
+            elif(UI_file=="labyrinthe.txt"):
+                if(x>=4 and y>=24):
+                    UI_file="boss_office.txt"
+                    change_map(UI_file, 45, 18,plateau)
 
 
 
@@ -94,7 +105,7 @@ def init():
         #Log
         if (strcmp(entry, 'L') or strcmp(entry, 'l')):
             print controls.get_player_pos(plateau)
-
+            #print plateau[1][0]
 
         if (strcmp(entry, 'D') or strcmp(entry, 'd')):
             controls.request_move(1, 0, plateau, UI_file)

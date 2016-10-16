@@ -45,28 +45,49 @@ def check_top_middle_bottom(top_temp, r, l, br, bl, letters):
     return top and middle and bottom
 
 def request_move(x, y, plateau, UI_file):
-    position=get_player_pos(plateau)
-    UI.load_board(UI_file, plateau)
+    if(UI_file=='labyrinthe.txt'):
+        position=get_player_pos(plateau)
 
-    top=plateau[position[1]+y-1][position[0]+x]
-    left=plateau[position[1]+y][position[0]+x-1]
-    right=plateau[position[1]+y][position[0]+x+1]
+        UI.load_board(UI_file, plateau)
 
-    if(position[1]+y+1<len(plateau)):
-        bottom_left=plateau[position[1]+y+1][position[0]+x-1]
-        bottom_right=plateau[position[1]+y+1][position[0]+x+1]
+        move='False'
+        if(position[1]+y<len(plateau)):
+            move=plateau[position[1]+y][position[0]+x]
+
+
+
+
+        if  move ==' ' and (position[1]+y)>0 and (position[1]+y<len(plateau)): #position[1]+y+1 = position + deplacement + tete personnage
+            UI.write_player(position[0], position[1], plateau)
+            move_player(x, y, plateau, UI_file)
+
+        else:
+            UI.write_player(position[0], position[1], plateau)
+
+
     else:
-        bottom_right=bottom_left='False'
+        position=get_player_pos(plateau)
+        UI.load_board(UI_file, plateau)
+
+        top=plateau[position[1]+y-1][position[0]+x]
+        left=plateau[position[1]+y][position[0]+x-1]
+        right=plateau[position[1]+y][position[0]+x+1]
+
+        if(position[1]+y+1<len(plateau)):
+            bottom_left=plateau[position[1]+y+1][position[0]+x-1]
+            bottom_right=plateau[position[1]+y+1][position[0]+x+1]
+        else:
+            bottom_right=bottom_left='False'
 
 
-    free=check_top_middle_bottom(top, right, left, bottom_right, bottom_left, ['@', ' ', '&'])
+        free=check_top_middle_bottom(top, right, left, bottom_right, bottom_left, ['@', ' ', '&'])
 
-    if  free and (position[1]+y-1)>0 and (position[1]+y+1<len(plateau)): #position[1]+y+1 = position + deplacement + tete personnage
-        UI.write_player(position[0], position[1], plateau)
-        move_player(x, y, plateau, UI_file)
-        #print plateau[position[1]+y-1][position[0]+x+1]
-    else:
-        UI.write_player(position[0], position[1], plateau)
+        if  free and (position[1]+y-1)>0 and (position[1]+y+1<len(plateau)): #position[1]+y+1 = position + deplacement + tete personnage
+            UI.write_player(position[0], position[1], plateau)
+            move_player(x, y, plateau, UI_file)
+            #print plateau[position[1]+y-1][position[0]+x+1]
+        else:
+            UI.write_player(position[0], position[1], plateau)
 
 def move_player(x, y, plateau, UI_file): #Déplacer le perso
     position=get_player_pos(plateau)
@@ -80,7 +101,11 @@ def move_player(x, y, plateau, UI_file): #Déplacer le perso
     tty.setraw(sys.stdin)
 
 def get_player_pos(plateau): #Obtenir les coordonnées du joueur sous forme de liste
+
     for j in range (0, len(plateau)):
         for i in range (0, len(plateau[j])):
             if strcmp(plateau[j][i], get_head_symbol()):
-                return [i, j+1]
+                if (plateau[1][0]=='A'):
+                    return [i, j]
+                else:
+                    return [i, j+1]
