@@ -27,6 +27,10 @@ def set_orig_settings():
 def get_current_level():
     return current_level
 
-def increase_level():
+def increase_level(i=0):
+
     global current_level
     current_level+=1
+
+    if(i>0):
+        current_level=int(i)

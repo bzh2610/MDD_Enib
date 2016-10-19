@@ -9,7 +9,7 @@ import time
 import os
 
 from strings import *
-import UI
+import UI, IO
 import controls
 
 
@@ -24,6 +24,7 @@ def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
     temp_level=get_current_level()
     if(temp_level in possible_objectives):
         increase_level()
+        IO.save_progress()
 
     #Move, clear the list, write position, display
     x,y=controls.get_player_pos(plateau)

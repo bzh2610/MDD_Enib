@@ -26,9 +26,9 @@ import time
 import os
 import time
 import codecs
-import json #parse
-from pprint import pprint#parse
 
+import base64
+import IO
 from strings import *
 import controls
 
@@ -49,16 +49,6 @@ def clear(UI_file, plateau): #Effacer la console entre les mouvements
     for i in range(30):
         print '\n'
 
-'''
-read json objectives
-'''
-def load_objective(i=0):
-
-
-    with open(repertoire + '/objectives.json') as data_file:
-        data = json.load(data_file)
-
-    return data['objectives'][i]
 
 
 
@@ -101,14 +91,16 @@ def load_board(UI_file, plateau):
                     i+=1
                     if i > imax: #Récuperer iMax pour centrer le texte d'objectif
                         imax=i
-    plateau[jmax+1][imax+1]
-    current_level=get_current_level()
-    current_objective=load_objective(current_level)
-    decalage=(imax-len(current_objective))/2
 
-    for i in range(0, len(current_objective)):
-        if(i<len(current_objective)):
-            plateau[jmax+1][i+decalage]=current_objective[i]
+    if(os.path.basename(UI_file) != 'menu.txt'):
+        plateau[jmax+1][imax+1]
+        current_level=get_current_level()
+        current_objective=IO.load_objective(current_level)
+        decalage=(imax-len(current_objective))/2
+
+        for i in range(0, len(current_objective)):
+            if(i<len(current_objective)):
+                plateau[jmax+1][i+decalage]=current_objective[i]
 
 
     f.close()

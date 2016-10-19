@@ -7,9 +7,9 @@ import sys
 import termios
 import time
 import os
-
+import termcolor
 from strings import *
-import UI
+import UI, IO
 import controls
 import map
 
@@ -22,7 +22,7 @@ screen=[]
 for j in range(22):
     screen.append([' '] * 100) #3 lignes, 20 caracteres
 
-UI.load_objective();
+IO.load_objective()
 
 def show_main_menu(a):
     UI_file='menu.txt'
@@ -36,14 +36,16 @@ set_orig_settings()
 orig_settings = get_orig_settings()
 
 #COMMENT OUT FOR PROD
-map.init()
-show_main_menu(screen)
-termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
+#map.init()
+#show_main_menu(screen)
+#termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
 #END
 
-'''
+
+
 commande=""
 while commande != 'exit' : # ESC
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
 
     commande=raw_input('root@188.166.172.81 : ')
     if(commande=="play"):
@@ -52,5 +54,15 @@ while commande != 'exit' : # ESC
 
     elif(commande=="exit"):
         break
+
+    elif(commande == "rm ./save"):
+        termcolor.cprint("Are you sure ? Y/N", 'red')
+        temp=raw_input('')
+        if(temp=='Y' or temp=='y'):
+            termcolor.cprint("Done.", 'red')
+
+    elif(commande == "help"):
+        show_main_menu(screen)
+
     else:
-        show_main_menu(screen)'''
+        termcolor.cprint("Type help to get a list of commands", 'yellow')
