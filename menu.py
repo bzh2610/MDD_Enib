@@ -22,6 +22,7 @@ screen=[]
 for j in range(22):
     screen.append([' '] * 100) #3 lignes, 20 caracteres
 
+UI.load_objective();
 
 def show_main_menu(a):
     UI_file='menu.txt'
@@ -37,6 +38,7 @@ orig_settings = get_orig_settings()
 #COMMENT OUT FOR PROD
 map.init()
 show_main_menu(screen)
+termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
 #END
 
 '''

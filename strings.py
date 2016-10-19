@@ -8,6 +8,7 @@ Fonctions:
 import tty, os, termios, sys
 global_orig_settings=termios.tcgetattr(sys.stdin)
 global_head_symbol='☺'
+current_level=0;
 
 def strcmp(a, b): #Compare deux chaines de texte
     if a in b:
@@ -22,3 +23,10 @@ def get_head_symbol():
 
 def set_orig_settings():
     global_orig_settings=termios.tcgetattr(sys.stdin)
+
+def get_current_level():
+    return current_level
+
+def increase_level():
+    global current_level
+    current_level+=1

@@ -26,6 +26,8 @@ import time
 import os
 import time
 import codecs
+import json #parse
+from pprint import pprint#parse
 
 from strings import *
 import controls
@@ -47,6 +49,18 @@ def clear(UI_file, plateau): #Effacer la console entre les mouvements
     for i in range(30):
         print '\n'
 
+'''
+read json objectives
+'''
+def load_objective(i=0):
+
+
+    with open(repertoire + '/objectives.json') as data_file:
+        data = json.load(data_file)
+
+    return data['objectives'][i]
+
+
 
 '''
 
@@ -66,10 +80,16 @@ def load_board(UI_file, plateau):
     UI_file=repertoire+'/'+UI_file
     i=0
     j=0
+    jmax=0;
+    imax=0;
+
     f= codecs.open(UI_file, 'r', "utf-8")
     for line in f.readlines():
         j+=1
         i=0
+
+        if j > jmax: #Récuperer jMax pour placer le texte d'objectif
+            jmax=j
 
         for ch in line:
 
@@ -79,6 +99,18 @@ def load_board(UI_file, plateau):
                 else:
                     plateau[j][i]=ch.encode('utf-8')
                     i+=1
+                    if i > imax: #Récuperer iMax pour centrer le texte d'objectif
+                        imax=i
+    plateau[jmax+1][imax+1]
+    current_level=get_current_level()
+    current_objective=load_objective(current_level)
+    decalage=(imax-len(current_objective))/2
+
+    for i in range(0, len(current_objective)):
+        if(i<len(current_objective)):
+            plateau[jmax+1][i+decalage]=current_objective[i]
+
+
     f.close()
     return plateau
 
@@ -91,6 +123,7 @@ Return: - : displays map
 '''
 
 def display_map(plateau): #Afficher le plateau
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
     out=''
     for j in range (0, len(plateau)):
 
@@ -107,6 +140,7 @@ def display_map(plateau): #Afficher le plateau
                     out=out+str(plateau[j][i])
         #out=out+'\n'
     print out+'\n'
+    tty.setraw(sys.stdin)
 
 
 '''
