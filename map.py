@@ -28,7 +28,7 @@ def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
 
     #Move, clear the list, write position, display
     x,y=controls.get_player_pos(plateau)
-
+    print '++++++++++++++++++++++++++++++++++++++++++++++++++++++',x_dest, y_dest
     UI.clear(map, plateau)
     UI.load_board(map, plateau)
     UI.write_player(x_dest, y_dest, plateau)
@@ -69,8 +69,15 @@ def init():
             x,y=controls.get_player_pos(plateau)
             if(UI_file=="map.txt"):
                 x,y=UI.get_map_position(plateau)
-                if(x==0 and y==0):
+                #print x,y
+                if (x==0 or y==0):
+                    variable_inutile=0
+                elif (x==0 and y==0):
                     UI_file=change_map('iSecure.txt', 55, 20, plateau, [0])
+                elif (x==4 and y==2):
+                    UI_file=change_map('steve_home.txt', 53, 22, plateau, [4])
+                elif (x==3 and y==3):
+                    UI_file=change_map('metro.txt', 75, 7, plateau)
 
             elif(UI_file=="iSecure.txt"):
                 if(x>=60 and y>=21): #Joueur sur la case de sortie
@@ -89,6 +96,9 @@ def init():
             elif(UI_file=="labyrinthe.txt"):
                 if(x>=4 and y>=24):
                     UI_file=change_map("boss_office.txt", 45, 18,plateau, [3])
+            elif(UI_file=="steve_home.txt"):
+                if(x>=61 and y>=21):
+                    UI_file=change_map("map.txt", 40, 15, plateau)
 
 
         #Log

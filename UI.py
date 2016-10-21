@@ -148,6 +148,7 @@ def get_map_position(plateau):
 
     position=controls.get_player_pos(plateau)
     x=position[0]
+    y=position[1]
     map_x =0
     map_y=0
     if (5<x and x<16):
@@ -160,6 +161,13 @@ def get_map_position(plateau):
         map_x=4
     elif (53<x and x<64):
         map_x=5
+
+    if (y>=3 and y<=6):
+        map_y=1
+    elif (y>=7 and y<=13):
+        map_y=2
+    elif (y>=14 and y<=20):
+        map_y=3
 
     return [map_x, map_y]
 
