@@ -12,8 +12,8 @@ from strings import *
 import UI, IO
 import controls
 import map
-
-
+import jump
+import signal
 '''
 INIT
 '''
@@ -40,8 +40,6 @@ orig_settings = get_orig_settings()
 #show_main_menu(screen)
 #termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
 #END
-
-
 
 commande=""
 while commande != 'exit' : # ESC

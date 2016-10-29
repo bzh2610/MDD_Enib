@@ -11,12 +11,14 @@ import os
 from strings import *
 import UI, IO
 import controls
-
+import select
+import signal
+import jump
 
 '''
 INIT
 '''
-
+GRAVITY=False
 
 def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
 
@@ -28,15 +30,46 @@ def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
 
     #Move, clear the list, write position, display
     x,y=controls.get_player_pos(plateau)
-    print '++++++++++++++++++++++++++++++++++++++++++++++++++++++',x_dest, y_dest
+
     UI.clear(map, plateau)
     UI.load_board(map, plateau)
     UI.write_player(x_dest, y_dest, plateau)
     UI.display_map(plateau)
     return map
 
+"*****************SIGNAL************"
+def interrupted(signum, frame):
+    "called when read times out"
+    raise Exception('EOT') #End of time
+
+def input():
+    try:
+            #print 'You have 1 seconds to type in your stuff...'
+            foo = sys.stdin.read(1)[0]
+            return foo
+    except Exception, exc:
+            # timeout
+
+            return 'OUT'
+
+def set_signal():
+
+    TIMEOUT = 0.25 # number of seconds your want for timeout
+    signal.signal(signal.SIGALRM, interrupted)
+    # set alarm
+    #signal.alarm(TIMEOUT)
+    signal.setitimer(signal.ITIMER_REAL, 0.25, 1)
+    s = input()
+    # disable the alarm after success
+    signal.alarm(0)
+    return s
+
+
+
+"*****************SIGNAL************"
 
 def init():
+    global GRAVITY
     tty.setraw(sys.stdin)
     repertoire=os.path.dirname(os.path.abspath(__file__))
     plateau=[]
@@ -62,10 +95,13 @@ def init():
     orig_settings = get_orig_settings()
 
 
-    entry = 0
+    entry = ''
     while entry != chr(27) : # ESC
-        entry=sys.stdin.read(1)[0]
+
+        t0=time.time()
+
         if (strcmp(entry, 'E') or strcmp(entry, 'e')): #E provoque une action: changement de carte/interraction
+
             x,y=controls.get_player_pos(plateau)
             if(UI_file=="map.txt"):
                 x,y=UI.get_map_position(plateau)
@@ -78,6 +114,9 @@ def init():
                     UI_file=change_map('steve_home.txt', 53, 22, plateau, [4])
                 elif (x==3 and y==3):
                     UI_file=change_map('metro.txt', 75, 7, plateau)
+                elif (x==4 and y==3):
+                    UI_file=change_map('void.txt', 20, 20, plateau)
+
 
             elif(UI_file=="iSecure.txt"):
                 if(x>=60 and y>=21): #Joueur sur la case de sortie
@@ -100,18 +139,41 @@ def init():
                 if(x>=61 and y>=21):
                     UI_file=change_map("map.txt", 40, 15, plateau)
 
+            elif(UI_file=="metro.txt"):
+                if(x>=81 and y<=9):
+                    UI_file=change_map("map.txt", 40, 15, plateau)
+
+
+        if (strcmp(entry, 'T') or strcmp(entry, 't')):
+            jump.generatemap(plateau)
 
         #Log
         if (strcmp(entry, 'L') or strcmp(entry, 'l')):
             print controls.get_player_pos(plateau)
-            #print plateau[1][0]
 
         if (strcmp(entry, 'D') or strcmp(entry, 'd')):
             controls.request_move(1, 0, plateau, UI_file)
 
         if (strcmp(entry, 'Z') or strcmp(entry, 'z')):
             controls.request_move(0, -1, plateau, UI_file)
+
         if (strcmp(entry, 'Q') or strcmp(entry, 'q')):
             controls.request_move(-1, 0, plateau, UI_file)
+
         if (strcmp(entry, 'S') or strcmp(entry, 's')):
             controls.request_move(0, 1, plateau, UI_file)
+
+        if (strcmp(entry, 'G') or strcmp(entry, 'g')):
+            if GRAVITY:
+                GRAVITY=False
+            else:
+                GRAVITY=True
+
+        if (strcmp(entry, ' ') and GRAVITY):
+            controls.request_move(0, -3, plateau, UI_file)
+
+        if (strcmp(entry, 'OUT') and GRAVITY):
+            if(UI_file=='jump.txt'):
+                controls.request_move(0,1, plateau, UI_file)
+
+        entry=set_signal()
