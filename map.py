@@ -14,7 +14,7 @@ import controls
 import select
 import signal
 import jump
-
+import hanoi
 '''
 INIT
 '''
@@ -108,12 +108,12 @@ def init():
                 #print x,y
                 if (x==0 or y==0):
                     variable_inutile=0
-                elif (x==0 and y==0):
+                elif (x==1 and y==1):
                     UI_file=change_map('iSecure.txt', 55, 20, plateau, [0])
                 elif (x==4 and y==2):
                     UI_file=change_map('steve_home.txt', 53, 22, plateau, [4])
                 elif (x==3 and y==3):
-                    UI_file=change_map('metro.txt', 75, 7, plateau)
+                    UI_file=change_map('metro.txt', 75, 7, plateau, [5])
                 elif (x==4 and y==3):
                     UI_file=change_map('void.txt', 20, 20, plateau)
 
@@ -142,6 +142,15 @@ def init():
             elif(UI_file=="metro.txt"):
                 if(x>=81 and y<=9):
                     UI_file=change_map("map.txt", 40, 15, plateau)
+                elif(x>=71 and y>=13):
+                    UI_file=change_map("cctv.txt", 55, 16, plateau, [6])
+            elif(UI_file=="cctv.txt"):
+                if(x>=59 and y>=16):
+                    UI_file=change_map("metro.txt", 50, 15, plateau)
+                elif(x>=2 and x<=20 and y<=16):
+                    hanoi.play(4)
+                elif(x>=22 and x<=39 and y<=16):
+                    hanoi.play(5)
 
 
         if (strcmp(entry, 'T') or strcmp(entry, 't')):
