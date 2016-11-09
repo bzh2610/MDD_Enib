@@ -47,9 +47,35 @@ def interrupted(signum, frame):
     raise Exception('EOT') #End of time
 iteration_compteur=0
 
+
+'''iteration_compteur=0
+
 moves_in_air=0
 def input():
     global moves_in_air
+    global iteration_compteur
+    try:
+
+            #print 'You have 1 seconds to type in your stuff...'
+            iteration_compteur+=1
+            if(iteration_compteur>=10):
+                iteration_compteur=0
+                if(moves_in_air==3 and GRAVITY):
+                    foo='DOWN'
+                    moves_in_air=0
+                else:
+                    foo = sys.stdin.read(1)[0]
+                    moves_in_air+=1
+            else:
+                foo='OUT'
+                return foo
+
+'''
+
+moves_in_air=0
+def input():
+    global moves_in_air
+    global plateau
     #global iteration_compteur
     try:
 
@@ -114,6 +140,7 @@ def init():
 
     global list_cactus
     global avancement
+    global iteration_compteur
     #Set text entry
     set_orig_settings()
     orig_settings = get_orig_settings()
@@ -196,6 +223,9 @@ def init():
         if (strcmp(entry, 'T') or strcmp(entry, 't')):
             jump.generatemap(plateau)
 
+        if (strcmp(entry, 'M') or strcmp(entry, 'm')):
+            UI_file=change_map("map.txt", 40, 15, plateau)
+
         #Log
         if (strcmp(entry, 'L') or strcmp(entry, 'l')):
             print controls.get_player_pos(plateau)
@@ -221,17 +251,26 @@ def init():
                 moves_in_air=0
 
         if (strcmp(entry, ' ') and GRAVITY):
-            controls.request_move(0, -5, plateau, UI_file)
+
+            #print plateau
+            x,y=controls.get_player_pos(plateau)
+
+            if(strcmp(plateau[y+2][x], '=')):
+                controls.request_move(0, -5, plateau, UI_file)
+
+        if (strcmp(entry, 'OUT') and GRAVITY):
+            if(UI_file=='jump.txt'):
+                iteration_compteur+=1
+                if(iteration_compteur>=4):
+                    entry='DOWN'
+                    iteration_compteur=0
+                x,y=controls.get_player_pos( plateau)
+                list_cactus, avancement = cactus.init(False, list_cactus, map, avancement)
+                UI_file=change_map('jump.txt', x, y, plateau)
 
         if (strcmp(entry, 'DOWN') and GRAVITY):
             controls.request_move(0,1, plateau, UI_file)
             x,y=controls.get_player_pos( plateau)
-
-        if (strcmp(entry, 'OUT') and GRAVITY):
-            if(UI_file=='jump.txt'):
-                x,y=controls.get_player_pos( plateau)
-                list_cactus, avancement = cactus.init(False, list_cactus, map, avancement)
-                UI_file=change_map('jump.txt', x, y, plateau)
 
 
         if(UI_file=='jump.txt'):
