@@ -1,6 +1,6 @@
   __________________________________________________________________
- |      ==i===      =Hack=      Arcade      =Boss=      =Post=      |
- |      Secure      =Stor=      ======      =House      Office      |
+ |      ==i===      =Hack=      Arcade      =Air==      =Post=      |
+ |      Secure      =Stor=      ======      =Port=      Office      |
  |      ======      ===e==      ======      ======      ======      |
  |                                                                  |
  |                                                                  |

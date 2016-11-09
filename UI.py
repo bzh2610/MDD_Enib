@@ -87,6 +87,7 @@ def load_board(UI_file, plateau):
                     plateau[j][i]=' '
 
                 else:
+                    
                     plateau[j][i]=ch.encode('utf-8')
                     i+=1
                     if i > imax: #Récuperer iMax pour centrer le texte d'objectif

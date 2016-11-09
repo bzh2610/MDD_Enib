@@ -53,3 +53,11 @@ def save_progress():
     with open(repertoire + '/objectives.json', 'w') as f:
         json.dump(current_progress, f, ensure_ascii=False)
     f.close()
+
+
+def write_level(file_name, array):
+    with open(repertoire + '/'+file_name, 'w') as f:
+        for j in range(len(array)):
+            print ''.join(array[j])+'\n'
+            f.write(''.join(array[j])+'\n')
+        f.close()

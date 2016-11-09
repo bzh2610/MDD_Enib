@@ -15,10 +15,14 @@ import select
 import signal
 import jump
 import hanoi
+import cactus
 '''
 INIT
 '''
 GRAVITY=False
+list_cactus=[]
+avancement=0
+plateau=[]
 
 def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
 
@@ -41,12 +45,24 @@ def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
 def interrupted(signum, frame):
     "called when read times out"
     raise Exception('EOT') #End of time
+iteration_compteur=0
 
+moves_in_air=0
 def input():
+    global moves_in_air
+    #global iteration_compteur
     try:
+
             #print 'You have 1 seconds to type in your stuff...'
-            foo = sys.stdin.read(1)[0]
+
+            if(moves_in_air==3 and GRAVITY):
+                foo='DOWN' #REMETTRE OUT POUR FAIRE TOMBER
+                moves_in_air=0
+            else:
+                foo = sys.stdin.read(1)[0]
+                moves_in_air+=1
             return foo
+
     except Exception, exc:
             # timeout
 
@@ -54,11 +70,11 @@ def input():
 
 def set_signal():
 
-    TIMEOUT = 0.25 # number of seconds your want for timeout
+    TIMEOUT = 0.04 # number of seconds your want for timeout
     signal.signal(signal.SIGALRM, interrupted)
     # set alarm
     #signal.alarm(TIMEOUT)
-    signal.setitimer(signal.ITIMER_REAL, 0.25, 1)
+    signal.setitimer(signal.ITIMER_REAL, TIMEOUT, 1)
     s = input()
     # disable the alarm after success
     signal.alarm(0)
@@ -66,10 +82,17 @@ def set_signal():
 
 
 
+
+
+
 "*****************SIGNAL************"
 
 def init():
+    reload(sys)
+    sys.setdefaultencoding('utf8')
     global GRAVITY
+    global moves_in_air
+    global plateau
     tty.setraw(sys.stdin)
     repertoire=os.path.dirname(os.path.abspath(__file__))
     plateau=[]
@@ -89,7 +112,8 @@ def init():
     UI.display_map(plateau)
     #print plateau
 
-
+    global list_cactus
+    global avancement
     #Set text entry
     set_orig_settings()
     orig_settings = get_orig_settings()
@@ -116,6 +140,14 @@ def init():
                     UI_file=change_map('metro.txt', 75, 7, plateau, [5])
                 elif (x==4 and y==3):
                     UI_file=change_map('void.txt', 20, 20, plateau)
+                elif (x==1 and y==3):
+                    UI_file=change_map('museum.txt', 4, 23, plateau)
+                elif (x==4 and y==1):
+                    UI_file=change_map('airport.txt', 77, 23, plateau)
+                elif (x==3 and y==2):
+                    #UI_file=change_map('jump.txt', 40, 13, plateau)
+                    list_cactus, avancement =cactus.init()
+                    UI_file=change_map('jump.txt', 5, 20, plateau)
 
 
             elif(UI_file=="iSecure.txt"):
@@ -141,18 +173,26 @@ def init():
 
             elif(UI_file=="metro.txt"):
                 if(x>=81 and y<=9):
-                    UI_file=change_map("map.txt", 40, 15, plateau)
+                    UI_file=change_map("map.txt", 40, 15, plateau, [9])
                 elif(x>=71 and y>=13):
                     UI_file=change_map("cctv.txt", 55, 16, plateau, [6])
             elif(UI_file=="cctv.txt"):
                 if(x>=59 and y>=16):
                     UI_file=change_map("metro.txt", 50, 15, plateau)
                 elif(x>=2 and x<=20 and y<=16):
-                    hanoi.play(4)
+                    hanoi.play(4, plateau)
                 elif(x>=22 and x<=39 and y<=16):
-                    hanoi.play(5)
+                    hanoi.play(3, plateau)
+            elif(UI_file=='museum.txt'):
+                if((x>=82 and y<=3) or  (x<=3 and y>=23)):
+                    UI_file=change_map("map.txt", 40, 15, plateau)
+
+            elif(UI_file=='airport.txt'):
+                if(x>=81 and y>=21):
+                    UI_file=change_map('map.txt', 40, 15, plateau)
 
 
+        #print '--'+entry+'--'
         if (strcmp(entry, 'T') or strcmp(entry, 't')):
             jump.generatemap(plateau)
 
@@ -175,14 +215,29 @@ def init():
         if (strcmp(entry, 'G') or strcmp(entry, 'g')):
             if GRAVITY:
                 GRAVITY=False
+                moves_in_air=0
             else:
                 GRAVITY=True
+                moves_in_air=0
 
         if (strcmp(entry, ' ') and GRAVITY):
-            controls.request_move(0, -3, plateau, UI_file)
+            controls.request_move(0, -5, plateau, UI_file)
+
+        if (strcmp(entry, 'DOWN') and GRAVITY):
+            controls.request_move(0,1, plateau, UI_file)
+            x,y=controls.get_player_pos( plateau)
 
         if (strcmp(entry, 'OUT') and GRAVITY):
             if(UI_file=='jump.txt'):
-                controls.request_move(0,1, plateau, UI_file)
+                x,y=controls.get_player_pos( plateau)
+                list_cactus, avancement = cactus.init(False, list_cactus, map, avancement)
+                UI_file=change_map('jump.txt', x, y, plateau)
 
-        entry=set_signal()
+
+        if(UI_file=='jump.txt'):
+            entry=set_signal()
+        else:
+            entry=sys.stdin.read(1)[0]
+
+        #For debug, display time between moves
+        #print time.time()-t0

@@ -1,5 +1,5 @@
 ##Projet MDD Enib
-###C@stle
+###HACKED
     |>>>
     |
     |>>>         _  _|_  _         |>>>
@@ -20,7 +20,7 @@
     -~--~                   ~-____|,--~'~~
 
 Ce repository contient le code du projet de MDD de S2 à l'ENIB.
-Les auteurs sont Pierre-Antoine FÉCHET et Evan OLLIVIER.
+Auteur : Evan OLLIVIER.
 
 Code:
 

@@ -1,6 +1,7 @@
 # coding: utf8
 
-import tty, os, termios, sys
+import tty, os, termios, sys, map, IO
+from strings import *
 
 size_tower=0
 alignement=0
@@ -26,7 +27,7 @@ def init(size):
 
 
 def show_towers(tours):
-
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
     plateau=[]
     for j in range(len(tours[0])+1):
         plateau.append([' '] * 24) #3 lignes, 20 caracteres
@@ -46,20 +47,25 @@ def show_towers(tours):
 
 
 
-def play(size):
+def play(size, plateau):
     tours=init(size)
-    show_towers(tours)
-    orig_settings=termios.tcgetattr(sys.stdin)
 
     first_input=True
     source=0
     destination=0
     invalid=False
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
+    print "This puzzle is an Hanoe Towers game, here are the rules:\n"
+    print "•You can move a ring to any of the towers as long as you don't put a ring on top of a smaller one\n"
+    print "•The goal is to transfer all the rings from the first tower to the last\n"
+    print "•To move a ring, enter the number of the tower you want to move it from to the number of the tower you want to move it to\n"
+    print "Eg: type 1 and then 3 to move a ring from the first tower to the last"
 
+    show_towers(tours)
     while tours[2][0]==0 or not sorted(tours[2], reverse=True):
         tty.setraw(sys.stdin)
         entry=sys.stdin.read(1)[0]
-        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_settings)
+
 
         if entry.isdigit():
             entry=int(entry)
@@ -72,6 +78,9 @@ def play(size):
                 print entry
                 invalid=False
         else:
+            if(entry==chr(27)):
+                UI_file=map.change_map("cctv.txt", 55, 16, plateau, [6])
+                break
             first_input=True
             invalid=True
             print 'Invalid'
@@ -120,6 +129,12 @@ def play(size):
         else:
             pass
 
-    print "Well done."
+    if(tours[2][0]!=0 and sorted(tours[2], reverse=True)):
+
+        print "Not that bad..."
+        increase_level()
+        IO.save_progress()
+        UI_file=map.change_map("cctv.txt", 55, 16, plateau, [6])
+        return 0
 
 #play(5)

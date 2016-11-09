@@ -5,7 +5,7 @@ USER INTERFACE
 Fonctions:
          |___strcmp()
 '''
-import tty, os, termios, sys
+import tty, os, termios, sys, random
 global_orig_settings=termios.tcgetattr(sys.stdin)
 global_head_symbol='☺'
 current_level=0;
