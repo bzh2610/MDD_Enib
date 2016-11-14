@@ -21,34 +21,19 @@ Position du personnage:
 Le égal central (centre de la poitrine)
 '''
 
-import sys
-import time
-import os
-import time
-import codecs
-
-import base64
-import IO
+import sys, time, os, time, codecs, base64
 from strings import *
-import controls
+import IO, controls, map
+
 
 repertoire=os.path.dirname(os.path.abspath(__file__))
-plateau=[]
-for j in range(29):
-    plateau.append([' '] * 100) #3 lignes, 20 caracteres
-
-def strcmp(a, b): #Compare deux chaines de texte
-    if a in b:
-        if b in a:
-            return True
 
 
 def clear(UI_file, plateau): #Effacer la console entre les mouvements
     load_board(UI_file, plateau)
     display_map(plateau)
-    for i in range(30):
-        print '\n'
-
+    sys.stdout.write("\033[1;1H")
+    sys.stdout.write("\033[2J")
 
 
 
@@ -59,41 +44,55 @@ Parameters: (string) UI_file: file in which the UI is stored as text
 Return: plateau
 
 '''
-def load_board(UI_file, plateau):
 
-    #Erase board
+def erase_board(plateau):
     for j in range (len(plateau)):
         for i in range (len(plateau[j])):
             plateau[j][i]=' '
+    return plateau
 
-    #Load
-    UI_file=repertoire+'/'+UI_file
-    i=0
-    j=0
-    jmax=0;
-    imax=0;
+def get_plate_size(UI_file, plateau):
+    i,j,jmax,imax=0,0,0,0
 
-    f= codecs.open(UI_file, 'r', "utf-8")
+    f=codecs.open(UI_file, 'r', "utf-8")
     for line in f.readlines():
         j+=1
         i=0
-
         if j > jmax: #Récuperer jMax pour placer le texte d'objectif
             jmax=j
-
         for ch in line:
-
                 if strcmp(ch, '\n'):
                     plateau[j][i]=' '
-
                 else:
-                    
                     plateau[j][i]=ch.encode('utf-8')
                     i+=1
                     if i > imax: #Récuperer iMax pour centrer le texte d'objectif
                         imax=i
+    f.close()
+    return imax, jmax
 
-    if(os.path.basename(UI_file) != 'menu.txt'):
+def load_board(UI_file, plateau):
+    #Erase board
+    plateau=erase_board(plateau)
+
+    #Load
+    UI_file=repertoire+'/'+UI_file
+    imax, jmax= get_plate_size(UI_file, plateau)
+
+    #Si le fichier affiche un score
+    #print os.path.basename(UI_file)
+    if(strcmp(os.path.basename(UI_file), 'jump.txt')):
+        plateau[jmax+1][imax+1]
+        score=str(map.get_score())
+        #print score #OK !
+        decalage=(imax-len(score))/2
+        for i in range(0, len(score)):
+            if(i<len(score)):
+                plateau[jmax+1][i+decalage]=score[i]
+
+
+    #Si une carte est chargée, afficher l'objectif
+    elif(os.path.basename(UI_file) != 'menu.txt'):
         plateau[jmax+1][imax+1]
         current_level=get_current_level()
         current_objective=IO.load_objective(current_level)
@@ -103,8 +102,6 @@ def load_board(UI_file, plateau):
             if(i<len(current_objective)):
                 plateau[jmax+1][i+decalage]=current_objective[i]
 
-
-    f.close()
     return plateau
 
 '''
@@ -137,11 +134,9 @@ def display_map(plateau): #Afficher le plateau
 
 
 '''
-
 Fonction: get_map_position
 Parameters: -
 Return: - : displays map
-
 '''
 
 
@@ -174,11 +169,9 @@ def get_map_position(plateau):
 
 
 '''
-
 Fonction: write_player
 Parameters: (x, y) as integers corresponding to the coordinates
 Return: -
-
 '''
 
 
@@ -187,31 +180,21 @@ def write_player(x, y, plateau): #Ecriture du personnage sur le tableau de jeu
         plateau[y][x]=get_head_symbol()
 
     else:
-        plateau[y][x]="="
-        plateau[y][x-1]="="
-        plateau[y][x+1]="="
         plateau[y-1][x]=get_head_symbol()
-        plateau[y+1][x-1]="|"
-        plateau[y+1][x]=" "
-        plateau[y+1][x+1]="|"
+        plateau[y][x-1], plateau[y][x], plateau[y][x+1] = '=','=','='
+        plateau[y+1][x-1], plateau[y+1][x+1] = '|','|'
 
 
 '''
-
 Fonction: erase_player
 Parameters: (x, y) as integers corresponding to the coordinates
 Return: -
-
 '''
 
 def erase_player(x, y, plateau):#Efface le personnage du tableau
     if(plateau[1][0]=='A'):
         plateau[y][x]=" "
     else:
-        plateau[y][x]=" "
-        plateau[y][x-1]=" "
-        plateau[y][x+1]=" "
-        plateau[y-1][x]=" "
-        plateau[y+1][x-1]=" "
-        plateau[y+1][x]=" "
-        plateau[y+1][x+1]=" "
+        plateau[y-1][x]=''
+        plateau[y][x-1], plateau[y][x], plateau[y][x+1] = '','',''
+        plateau[y+1][x-1], plateau[y+1][x+1] = '',''

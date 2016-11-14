@@ -1,22 +1,11 @@
 # coding: utf8
-'''
-Main map
-'''
-import tty
-import sys
-import termios
-import time
-import os
-import termcolor
+#Carte principale
+import tty, signal, sys, termios, time, os, termcolor
 from strings import *
-import UI, IO
-import controls
-import map
-import jump
-import signal
-'''
-INIT
-'''
+import UI, IO, controls, map, jump
+
+
+#initialisation
 repertoire=os.path.dirname(os.path.abspath(__file__))
 screen=[]
 for j in range(22):
@@ -34,12 +23,6 @@ show_main_menu(screen)
 #Set text entry
 set_orig_settings()
 orig_settings = get_orig_settings()
-
-#COMMENT OUT FOR PROD
-#map.init()
-#show_main_menu(screen)
-#termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
-#END
 
 commande=""
 while commande != 'exit' : # ESC

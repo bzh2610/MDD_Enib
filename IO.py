@@ -9,30 +9,16 @@ Fonctions:
 
 '''
 
-import sys
-import time
-import os
-import codecs
-import json #parse
-import base64
-
+import sys, time, os, codecs, json, base64
 from strings import *
 import controls
 
 repertoire=os.path.dirname(os.path.abspath(__file__))
 plateau=[]
-for j in range(29):
-    plateau.append([' '] * 100) #3 lignes, 20 caracteres
 
-def strcmp(a, b): #Compare deux chaines de texte
-    if a in b:
-        if b in a:
-            return True
 
-'''
-read json objectives
-'''
-def load_objective(i='json'): #I is a number when specified out
+#Lire les objectifs jSON
+def load_objective(i='json'): #I is a number when specified out, define it as a string if not parameter is specified
     with open(repertoire + '/objectives.json') as data_file:
         data = json.load(data_file)
     if(get_current_level()==0):

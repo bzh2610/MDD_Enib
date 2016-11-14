@@ -3,7 +3,6 @@
 import tty, os, termios, sys, map, IO, UI, time
 from strings import *
 
-size_tower=0
 alignement=0
 
 def generate_cactus():

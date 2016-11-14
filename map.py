@@ -2,27 +2,22 @@
 '''
 Main map
 '''
-import tty
-import sys
-import termios
-import time
-import os
-
+import tty, sys, termios, time, os, select, signal
 from strings import *
-import UI, IO
-import controls
-import select
-import signal
-import jump
-import hanoi
-import cactus
-'''
-INIT
-'''
+import UI, IO, controls, jump, hanoi, cactus
+
+
+
 GRAVITY=False
-list_cactus=[]
-avancement=0
-plateau=[]
+list_cactus, plateau =[], []
+avancement, iteration_compteur, moves_in_air, score = 0, 0, 0, 0
+
+
+def get_score():
+    global score
+    return score
+
+
 
 def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
 
@@ -41,106 +36,48 @@ def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
     UI.display_map(plateau)
     return map
 
-"*****************SIGNAL************"
-def interrupted(signum, frame):
-    "called when read times out"
-    raise Exception('EOT') #End of time
-iteration_compteur=0
+
+def interact():
+	#gestion des evenement clavier
+	#si une touche est appuyee
+	if isData():
+		c = sys.stdin.read(1)
+		if c == '\x1b':         # x1b is ESC
+			quitGame()
+		return c
+
+def isData():
+	#recuperation evenement clavier
+	return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 
-'''iteration_compteur=0
-
-moves_in_air=0
-def input():
-    global moves_in_air
-    global iteration_compteur
-    try:
-
-            #print 'You have 1 seconds to type in your stuff...'
-            iteration_compteur+=1
-            if(iteration_compteur>=10):
-                iteration_compteur=0
-                if(moves_in_air==3 and GRAVITY):
-                    foo='DOWN'
-                    moves_in_air=0
-                else:
-                    foo = sys.stdin.read(1)[0]
-                    moves_in_air+=1
-            else:
-                foo='OUT'
-                return foo
-
-'''
-
-moves_in_air=0
-def input():
-    global moves_in_air
-    global plateau
-    #global iteration_compteur
-    try:
-
-            #print 'You have 1 seconds to type in your stuff...'
-
-            if(moves_in_air==3 and GRAVITY):
-                foo='DOWN' #REMETTRE OUT POUR FAIRE TOMBER
-                moves_in_air=0
-            else:
-                foo = sys.stdin.read(1)[0]
-                moves_in_air+=1
-            return foo
-
-    except Exception, exc:
-            # timeout
-
-            return 'OUT'
-
-def set_signal():
-
-    TIMEOUT = 0.04 # number of seconds your want for timeout
-    signal.signal(signal.SIGALRM, interrupted)
-    # set alarm
-    #signal.alarm(TIMEOUT)
-    signal.setitimer(signal.ITIMER_REAL, TIMEOUT, 1)
-    s = input()
-    # disable the alarm after success
-    signal.alarm(0)
-    return s
-
-
-
-
-
-
-"*****************SIGNAL************"
 
 def init():
+
     reload(sys)
     sys.setdefaultencoding('utf8')
+    tty.setraw(sys.stdin)
+    repertoire=os.path.dirname(os.path.abspath(__file__))
+
+
     global GRAVITY
     global moves_in_air
     global plateau
-    tty.setraw(sys.stdin)
-    repertoire=os.path.dirname(os.path.abspath(__file__))
+    global list_cactus
+    global avancement
+    global iteration_compteur
+    global score
+
     plateau=[]
     for j in range(31):
         plateau.append([' '] * 100) #3 lignes, 20 caracteres
 
-    '''labyrinthe
-        UI_file='labyrinthe.txt'
-        plateau=UI.load_board(UI_file, plateau)
-        UI.write_player(70,1, plateau)
-        UI.display_map(plateau)
-    '''
-    #print controls.get_player_pos(plateau)
-    UI_file='map.txt'
-    plateau=UI.load_board(UI_file, plateau)
-    UI.write_player(41,14, plateau)
-    UI.display_map(plateau)
-    #print plateau
 
-    global list_cactus
-    global avancement
-    global iteration_compteur
+    UI.write_player(0,0, plateau)
+    UI_file=change_map("map.txt", 40, 15, plateau, [9])
+
+
+
     #Set text entry
     set_orig_settings()
     orig_settings = get_orig_settings()
@@ -213,6 +150,9 @@ def init():
             elif(UI_file=='museum.txt'):
                 if((x>=82 and y<=3) or  (x<=3 and y>=23)):
                     UI_file=change_map("map.txt", 40, 15, plateau)
+                elif(x>=94 and y>=22):
+                    list_cactus, avancement =cactus.init()
+                    UI_file=change_map('jump.txt', 5, 20, plateau)
 
             elif(UI_file=='airport.txt'):
                 if(x>=81 and y>=21):
@@ -242,7 +182,7 @@ def init():
         if (strcmp(entry, 'S') or strcmp(entry, 's')):
             controls.request_move(0, 1, plateau, UI_file)
 
-        if (strcmp(entry, 'G') or strcmp(entry, 'g')):
+        if (strcmp(entry, 'G') or strcmp(entry, 'g') and score==0):
             if GRAVITY:
                 GRAVITY=False
                 moves_in_air=0
@@ -250,33 +190,77 @@ def init():
                 GRAVITY=True
                 moves_in_air=0
 
-        if (strcmp(entry, ' ') and GRAVITY):
+        #print entry
 
+        if (strcmp(entry, 'k')):
+            #print 'AAA'
+            print plateau[y+2][x]
             #print plateau
             x,y=controls.get_player_pos(plateau)
 
             if(strcmp(plateau[y+2][x], '=')):
                 controls.request_move(0, -5, plateau, UI_file)
 
-        if (strcmp(entry, 'OUT') and GRAVITY):
-            if(UI_file=='jump.txt'):
-                iteration_compteur+=1
-                if(iteration_compteur>=4):
-                    entry='DOWN'
-                    iteration_compteur=0
-                x,y=controls.get_player_pos( plateau)
-                list_cactus, avancement = cactus.init(False, list_cactus, map, avancement)
-                UI_file=change_map('jump.txt', x, y, plateau)
 
         if (strcmp(entry, 'DOWN') and GRAVITY):
             controls.request_move(0,1, plateau, UI_file)
-            x,y=controls.get_player_pos( plateau)
 
 
-        if(UI_file=='jump.txt'):
-            entry=set_signal()
+
+        if(UI_file=="jump.txt" and GRAVITY):
+            x,y=controls.get_player_pos(plateau)
+            if(strcmp(plateau[y+2][x], '|') or strcmp(plateau[y+1][x], '|') or strcmp(plateau[y][x+2], '|') or strcmp(plateau[y+1][x+2], '|') ):
+                GRAVITY=False
+                print 'Press Q to exit:'
+                entry=sys.stdin.read(1)[0]
+                if(entry=='Q' or entry=="q"):
+                    UI_file=change_map('map.txt', 40, 15, plateau)
+                    score=0
+                else:
+                    score=0
+                    UI_file=change_map(UI_file, 5, 20, plateau)
+                    GRAVITY=True
+                    iteration_compteur=0
+
+
+
+
+
+
+        entry='OUT'
+        if strcmp(UI_file, 'jump.txt'):
+            if True:
+                if isData():
+                    entry=sys.stdin.read(1)[0]
+                    if(UI_file=='jump.txt'):
+                        iteration_compteur+=1
+                        if GRAVITY:
+                            score+=1
+                        if(iteration_compteur>=4):
+                            entry='DOWN'
+                            iteration_compteur=0
+                else:
+                    x,y=controls.get_player_pos( plateau)
+                    list_cactus, avancement = cactus.init(False, list_cactus, map, avancement)
+                    UI_file=change_map(UI_file, x, y, plateau)
+                    if(UI_file=='jump.txt'):
+                        iteration_compteur+=1
+                        if GRAVITY:
+                            score+=1
+
+                        if(iteration_compteur>=4):
+                            entry='DOWN'
+                            iteration_compteur=0
+
+
+                exec_time=float(time.time()-t0)
+                if(0.1-exec_time>0):
+                    time.sleep(0.1-exec_time)
         else:
             entry=sys.stdin.read(1)[0]
+
+
+
 
         #For debug, display time between moves
         #print time.time()-t0
