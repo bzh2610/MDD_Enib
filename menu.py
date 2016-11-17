@@ -2,7 +2,7 @@
 #Carte principale
 import tty, signal, sys, termios, time, os, termcolor
 from strings import *
-import UI, IO, controls, map, jump
+import UI, IO, controls, map, jump, iSecure_home
 
 
 #initialisation
@@ -30,17 +30,28 @@ while commande != 'exit' : # ESC
 
     commande=raw_input('root@188.166.172.81 : ')
     if(commande=="play"):
+        a= IO.load_objective()
+        if(not 'progress' in a):
+            iSecure_home.init()
+            IO.save_progress(True)
+
         map.init()
         show_main_menu(screen)
 
     elif(commande=="exit"):
         break
 
+    elif(commande=="skip"):
+        map.init()
+        show_main_menu(screen)
+
     elif(commande == "rm ./save"):
         termcolor.cprint("Are you sure ? Y/N", 'red')
         temp=raw_input('')
         if(temp=='Y' or temp=='y'):
+            IO.erase_progress()
             termcolor.cprint("Done.", 'red')
+
 
     elif(commande == "help"):
         show_main_menu(screen)

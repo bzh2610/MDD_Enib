@@ -57,6 +57,7 @@ def init():
     reload(sys)
     sys.setdefaultencoding('utf8')
     tty.setraw(sys.stdin)
+
     repertoire=os.path.dirname(os.path.abspath(__file__))
 
 
@@ -110,6 +111,9 @@ def init():
                     UI_file=change_map('airport.txt', 77, 23, plateau)
                 elif (x==3 and y==2):
                     #UI_file=change_map('jump.txt', 40, 13, plateau)
+                    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
+                    print '• Press SPACE to jump'
+                    print '• Score at least 200 to pass'
                     list_cactus, avancement =cactus.init()
                     UI_file=change_map('jump.txt', 5, 20, plateau)
 
@@ -192,7 +196,7 @@ def init():
 
         #print entry
 
-        if (strcmp(entry, 'k')):
+        if (strcmp(entry, ' ')):
             #print 'AAA'
             print plateau[y+2][x]
             #print plateau

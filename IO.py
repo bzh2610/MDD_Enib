@@ -28,17 +28,39 @@ def load_objective(i='json'): #I is a number when specified out, define it as a 
     data_file.close()
         #Si un objectif est spécifié, le retourner sinon tout retourner.
 
-    if(isinstance(i, int) and i <= len(data['objectives']) ):
+    if(isinstance(i, int) and i <= len(data['objectives']) ): #Si l'objectif spécifié existe
         return data['objectives'][i]
     else:
         return data
 
-def save_progress():
+def save_progress(init=False):
+
     current_progress=load_objective()
-    current_progress['progress']=base64.b64encode(str(get_current_level()))
+    level=str(get_current_level())
+    if(init):
+        current_progress['progress']=base64.b64encode('0')
+    else:
+        current_progress['progress']=base64.b64encode(level)
+
     with open(repertoire + '/objectives.json', 'w') as f:
         json.dump(current_progress, f, ensure_ascii=False)
     f.close()
+
+def erase_progress():
+    with open(repertoire + '/objectives.json') as data_file:
+        data = json.load(data_file)
+
+    try:
+        if data['progress']:
+            del data['progress']
+    except KeyError:
+        print "Key doesn't exist"
+
+    with open(repertoire + '/objectives.json', 'w') as f:
+        json.dump(data, f, ensure_ascii=False)
+    f.close()
+
+
 
 
 def write_level(file_name, array):

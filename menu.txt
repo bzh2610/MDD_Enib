@@ -12,8 +12,9 @@ SFTP SSL/Priv-Key secured connection: OK
 Updates: OK
 
 Help:
-     *play       play the game
-     *rm ./save  remove the current progress
-     *help       read tutorial
-     *exit       quit the game
+     • play       play the game
+     • skip       play but skip the intro (terminal hack)
+     • rm ./save  remove the current progress
+     • help       read tutorial
+     • exit       quit the game
 ___________________________________________________________

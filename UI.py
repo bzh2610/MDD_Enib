@@ -126,6 +126,8 @@ def display_map(plateau): #Afficher le plateau
                     out=out+' '
                 elif(plateau[j][i]=='A' and j==1):
                     out=out+'█'
+                elif(i==99):
+                    out=out+plateau[j][i]+'\n'
                 else:
                     out=out+str(plateau[j][i])
         #out=out+'\n'
