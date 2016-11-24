@@ -34,6 +34,7 @@ while commande != 'exit' : # ESC
         if(not 'progress' in a):
             iSecure_home.init()
             IO.save_progress(True)
+            IO.init_level()
 
         map.init()
         show_main_menu(screen)
@@ -44,6 +45,15 @@ while commande != 'exit' : # ESC
     elif(commande=="skip"):
         map.init()
         show_main_menu(screen)
+
+    elif(commande=="language"):
+        print IO.get_language()
+        if(strcmp("EN", IO.get_language())):
+            IO.set_language('FR')
+            print "La langue utilisée est désormais le Français."
+        else:
+            IO.set_language('EN')
+            print "Language set to English"
 
     elif(commande == "rm ./save"):
         termcolor.cprint("Are you sure ? Y/N", 'red')

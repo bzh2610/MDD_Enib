@@ -96,11 +96,13 @@ def load_board(UI_file, plateau):
         plateau[jmax+1][imax+1]
         current_level=get_current_level()
         current_objective=IO.load_objective(current_level)
-        decalage=(imax-len(current_objective))/2
+        
+        if(len(current_objective)<100):
+            decalage=(imax-len(current_objective))/2
 
-        for i in range(0, len(current_objective)):
-            if(i<len(current_objective)):
-                plateau[jmax+1][i+decalage]=current_objective[i]
+            for i in range(0, len(current_objective)):
+                if(i<len(current_objective)):
+                    plateau[jmax+1][i+decalage]=current_objective[i]
 
     return plateau
 

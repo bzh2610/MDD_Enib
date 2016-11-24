@@ -5,6 +5,7 @@ Main map
 import tty, sys, termios, time, os, select, signal
 from strings import *
 import UI, IO, controls, jump, hanoi, cactus
+import curses
 
 
 
@@ -61,6 +62,7 @@ def init():
     repertoire=os.path.dirname(os.path.abspath(__file__))
 
 
+
     global GRAVITY
     global moves_in_air
     global plateau
@@ -85,7 +87,7 @@ def init():
 
 
     entry = ''
-    while entry != chr(27) : # ESC
+    while entry != '\x1b' : # ESC
 
         t0=time.time()
 
@@ -161,6 +163,11 @@ def init():
             elif(UI_file=='airport.txt'):
                 if(x>=81 and y>=21):
                     UI_file=change_map('map.txt', 40, 15, plateau)
+                elif(x>=81 and y<=12):
+                    UI_file=change_map('credits.txt', 8, 23, plateau)
+            elif(UI_file=='credits.txt'):
+                if(x>=81 and y>=21):
+                    UI_file=change_map('map.txt', 40, 15, plateau)
 
 
         #print '--'+entry+'--'
@@ -177,7 +184,7 @@ def init():
         if (strcmp(entry, 'D') or strcmp(entry, 'd')):
             controls.request_move(1, 0, plateau, UI_file)
 
-        if (strcmp(entry, 'Z') or strcmp(entry, 'z')):
+        if (strcmp(entry, 'Z') or strcmp(entry, 'z') or strcmp(entry, '\x1b[A')):
             controls.request_move(0, -1, plateau, UI_file)
 
         if (strcmp(entry, 'Q') or strcmp(entry, 'q')):
@@ -215,10 +222,17 @@ def init():
             x,y=controls.get_player_pos(plateau)
             if(strcmp(plateau[y+2][x], '|') or strcmp(plateau[y+1][x], '|') or strcmp(plateau[y][x+2], '|') or strcmp(plateau[y+1][x+2], '|') ):
                 GRAVITY=False
-                print 'Press Q to exit:'
+
+
+                if(score >=200):
+                    print 'Congrats, you reached the target score !'
+                print 'Press Q to exit, any other key to retry :'
                 entry=sys.stdin.read(1)[0]
                 if(entry=='Q' or entry=="q"):
-                    UI_file=change_map('map.txt', 40, 15, plateau)
+                    if(score >=200):
+                        UI_file=change_map("map.txt", 40, 15, plateau, [10])
+                    else:
+                        UI_file=change_map("map.txt", 40, 15, plateau)
                     score=0
                 else:
                     score=0
@@ -261,7 +275,10 @@ def init():
                 if(0.1-exec_time>0):
                     time.sleep(0.1-exec_time)
         else:
-            entry=sys.stdin.read(1)[0]
+            entry=sys.stdin.read(1)
+
+
+
 
 
 

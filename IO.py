@@ -16,8 +16,41 @@ import controls
 repertoire=os.path.dirname(os.path.abspath(__file__))
 plateau=[]
 
+#Retourne la langue utilisée dans le jeu
+#FR ou EN
+def get_language():
+    data={}
+    with open(repertoire + '/objectives.json') as file_:
+        data = json.load(file_)
+    file_.close
 
-#Lire les objectifs jSON
+    try:
+        if data['progress']:
+            return data['language']
+        else:
+            return 'FR'
+    except KeyError:
+        return 'FR'
+
+
+
+#Ecrit la langue utilisée dans le jeu
+def set_language(language):
+    data=load_objective()
+    if(strcmp(language, 'FR') or strcmp(language, 'EN')):
+        data['language']=language
+        return_value=True
+    else:
+        return_value=False
+    if return_value:
+        with open(repertoire + '/objectives.json', 'w') as f:
+            json.dump(data, f, ensure_ascii=False)
+        f.close()
+    return return_value
+
+
+#Lire les objectifs jSON,
+#Retrourne la liste complete de tout les objectifs
 def load_objective(i='json'): #I is a number when specified out, define it as a string if not parameter is specified
     with open(repertoire + '/objectives.json') as data_file:
         data = json.load(data_file)
@@ -27,14 +60,19 @@ def load_objective(i='json'): #I is a number when specified out, define it as a 
             increase_level(niveau)
     data_file.close()
         #Si un objectif est spécifié, le retourner sinon tout retourner.
+    language=get_language()
+    
+    if(isinstance(i, int) and i <= len(data['objectives'][language]) ): #Si l'objectif spécifié existe
 
-    if(isinstance(i, int) and i <= len(data['objectives']) ): #Si l'objectif spécifié existe
-        return data['objectives'][i]
+        return data['objectives'][language][i]
     else:
         return data
 
-def save_progress(init=False):
 
+#Sauvegarde la progression
+#Si le parametre init est spécifié vrai, l'objectif sera fixé
+#À 0 en base64
+def save_progress(init=False):
     current_progress=load_objective()
     level=str(get_current_level())
     if(init):
