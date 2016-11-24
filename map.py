@@ -118,7 +118,18 @@ def init():
                     print '• Score at least 200 to pass'
                     list_cactus, avancement =cactus.init()
                     UI_file=change_map('jump.txt', 5, 20, plateau)
+                elif(x==5 and y==1):
+                    UI_file=change_map('post_office.txt', 54, 20, plateau)
+                elif(x==2 and y==1):
+                    UI_file=change_map('iStore.txt', 57,20, plateau)
 
+            elif(UI_file=="post_office.txt"):
+                if(x>=59 and y>=18): #Joueur sur la case de sortie
+                    UI_file=change_map('map.txt', 40, 18, plateau)
+
+            elif(UI_file=="iStore.txt"):
+                if(x>=63 and y>=21): #Joueur sur la case de sortie
+                    UI_file=change_map('map.txt', 40, 18, plateau)
 
             elif(UI_file=="iSecure.txt"):
                 if(x>=60 and y>=21): #Joueur sur la case de sortie
