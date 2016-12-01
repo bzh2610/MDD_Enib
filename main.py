@@ -2,7 +2,7 @@
 #Carte principale
 import tty, signal, sys, termios, time, os, termcolor, base64, hanoi
 from strings import *
-import UI, IO, controls, map, jump, iSecure_home
+import UI, IO, controls, map, iSecure_home
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -188,8 +188,8 @@ if __name__ == '__main__':
 
 
     #Change map
-    carte_test=map.change_map('airport.txt', 77, 23, plate)
-    position=get_player_pos(plate)
+    carte_test=map.change_map('airport.txt', 77, 23, plate,[] , True)
+    position=controls.get_player_pos(plate)
     if not((carte_test=='airport.txt' and position[0]==77 and position[1]==23)):
         print 'map.change_map() test error'
 

@@ -4,7 +4,7 @@ Main map
 '''
 import tty, sys, termios, time, os, select
 from strings import *
-import UI, IO, controls, jump, hanoi, cactus
+import UI, IO, controls, hanoi, cactus
 import curses
 
 
