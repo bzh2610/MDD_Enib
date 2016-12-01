@@ -20,7 +20,7 @@ plateau=[]
 #FR ou EN
 def get_language():
     data={}
-    with open(repertoire + '/objectives.json') as file_:
+    with codecs.open(repertoire + '/objectives.json', 'r', encoding='utf-8') as file_:
         data = json.load(file_)
     file_.close
 
@@ -35,7 +35,7 @@ def get_language():
 
 
 #Ecrit la langue utilisée dans le jeu
-def set_language(language):
+def set_language(language='FR'):
     data=load_objective()
     if(strcmp(language, 'FR') or strcmp(language, 'EN')):
         data['language']=language
@@ -43,8 +43,9 @@ def set_language(language):
     else:
         return_value=False
     if return_value:
-        with open(repertoire + '/objectives.json', 'w') as f:
-            json.dump(data, f, ensure_ascii=False)
+
+        with codecs.open(repertoire + '/objectives.json', "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
         f.close()
     return return_value
 
@@ -52,16 +53,17 @@ def set_language(language):
 #Lire les objectifs jSON,
 #Retrourne la liste complete de tout les objectifs
 def load_objective(i='json'): #I is a number when specified out, define it as a string if not parameter is specified
-    with open(repertoire + '/objectives.json') as data_file:
-        data = json.load(data_file)
+    data_file=codecs.open(repertoire + '/objectives.json', 'r', encoding='utf-8')
+    data = json.loads(data_file.read())
     if(get_current_level()==0):
         if ('progress' in data):
             niveau=base64.b64decode(data['progress'])
             increase_level(niveau)
     data_file.close()
+
         #Si un objectif est spécifié, le retourner sinon tout retourner.
     language=get_language()
-    
+
     if(isinstance(i, int) and i <= len(data['objectives'][language]) ): #Si l'objectif spécifié existe
 
         return data['objectives'][language][i]
@@ -80,22 +82,22 @@ def save_progress(init=False):
     else:
         current_progress['progress']=base64.b64encode(level)
 
-    with open(repertoire + '/objectives.json', 'w') as f:
-        json.dump(current_progress, f, ensure_ascii=False)
+    with codecs.open(repertoire + '/objectives.json', 'w', encoding="utf-8") as f:
+        json.dump(current_progress, f,indent=4, sort_keys=True, ensure_ascii=False)
     f.close()
 
 def erase_progress():
-    with open(repertoire + '/objectives.json') as data_file:
+    with codecs.open(repertoire + '/objectives.json') as data_file:
         data = json.load(data_file)
 
     try:
         if data['progress']:
             del data['progress']
     except KeyError:
-        print "Key doesn't exist"
+        print "Progress Key doesn't exist, may not be an error"
 
-    with open(repertoire + '/objectives.json', 'w') as f:
-        json.dump(data, f, ensure_ascii=False)
+    with codecs.open(repertoire + '/objectives.json', 'w', encoding="utf-8") as f:
+        json.dump(data, f,indent=4, sort_keys=True,  ensure_ascii=False)
     f.close()
 
 

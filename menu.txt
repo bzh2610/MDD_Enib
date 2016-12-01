@@ -10,6 +10,7 @@ ____________________________________________________________
 Linux 2.6.4 root@188.166.172.81
 SFTP SSL/Priv-Key secured connection: OK
 Updates: OK
+Dear hackers, scroll up for test results
 
 Help:
      • play       play the game

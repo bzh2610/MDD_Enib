@@ -31,7 +31,7 @@ repertoire=os.path.dirname(os.path.abspath(__file__))
 
 def clear(UI_file, plateau): #Effacer la console entre les mouvements
     load_board(UI_file, plateau)
-    display_map(plateau)
+    #display_map(plateau)
     sys.stdout.write("\033[1;1H")
     sys.stdout.write("\033[2J")
 
@@ -96,7 +96,7 @@ def load_board(UI_file, plateau):
         plateau[jmax+1][imax+1]
         current_level=get_current_level()
         current_objective=IO.load_objective(current_level)
-        
+
         if(len(current_objective)<100):
             decalage=(imax-len(current_objective))/2
 

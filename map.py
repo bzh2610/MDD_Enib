@@ -2,7 +2,7 @@
 '''
 Main map
 '''
-import tty, sys, termios, time, os, select, signal
+import tty, sys, termios, time, os, select
 from strings import *
 import UI, IO, controls, jump, hanoi, cactus
 import curses
@@ -20,7 +20,7 @@ def get_score():
 
 
 
-def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
+def change_map(map, x_dest, y_dest, plateau, possible_objectives=[], test=False):
 
     #Checks for achivements to pass
     temp_level=get_current_level()
@@ -34,7 +34,8 @@ def change_map(map, x_dest, y_dest, plateau, possible_objectives=[]):
     UI.clear(map, plateau)
     UI.load_board(map, plateau)
     UI.write_player(x_dest, y_dest, plateau)
-    UI.display_map(plateau)
+    if(test==False):
+        UI.display_map(plateau)
     return map
 
 
@@ -105,13 +106,16 @@ def init():
                     UI_file=change_map('steve_home.txt', 53, 22, plateau, [4])
                 elif (x==3 and y==3):
                     UI_file=change_map('metro.txt', 75, 7, plateau, [5])
-                elif (x==4 and y==3):
-                    UI_file=change_map('void.txt', 20, 20, plateau)
+
                 elif (x==1 and y==3):
                     UI_file=change_map('museum.txt', 4, 23, plateau)
+                elif (x==2 and y==2):
+                    UI_file=change_map('bar.txt', 53, 20, plateau)
                 elif (x==4 and y==1):
                     UI_file=change_map('airport.txt', 77, 23, plateau)
-                elif (x==3 and y==2):
+                elif (x==1 and y==2):
+                    UI_file=change_map('castle_1.txt', 6, 26, plateau)
+                '''elif (x==3 and y==2):
                     #UI_file=change_map('jump.txt', 40, 13, plateau)
                     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
                     print '• Press SPACE to jump'
@@ -119,21 +123,26 @@ def init():
                     list_cactus, avancement =cactus.init()
                     UI_file=change_map('jump.txt', 5, 20, plateau)
                 elif(x==5 and y==1):
-                    UI_file=change_map('post_office.txt', 54, 20, plateau)
+                    UI_file=change_map('post_office.txt', 54, 3, plateau)
                 elif(x==2 and y==1):
-                    UI_file=change_map('iStore.txt', 57,20, plateau)
+                    UI_file=change_map('iStore.txt', 57, 21, plateau)
+                '''
 
             elif(UI_file=="post_office.txt"):
                 if(x>=59 and y>=18): #Joueur sur la case de sortie
                     UI_file=change_map('map.txt', 40, 18, plateau)
 
+            elif(UI_file=="bar.txt"):
+                if(x>=59 and y>=18):
+                    UI_file=change_map('map.txt', 27, 10, plateau)
+
             elif(UI_file=="iStore.txt"):
                 if(x>=63 and y>=21): #Joueur sur la case de sortie
-                    UI_file=change_map('map.txt', 40, 18, plateau)
+                    UI_file=change_map('map.txt', 27, 3, plateau)
 
             elif(UI_file=="iSecure.txt"):
                 if(x>=60 and y>=21): #Joueur sur la case de sortie
-                    UI_file=change_map('map.txt', 40, 15, plateau)
+                    UI_file=change_map('map.txt', 15, 3, plateau)
 
                 elif (x>=4 and x<=13 and y==11): #Joueur sur BOSS OFFICE
                     UI_file=change_map('boss_office.txt', 45, 18, plateau, [1])
@@ -150,11 +159,11 @@ def init():
                     UI_file=change_map("boss_office.txt", 45, 18,plateau, [3])
             elif(UI_file=="steve_home.txt"):
                 if(x>=61 and y>=21):
-                    UI_file=change_map("map.txt", 40, 15, plateau)
+                    UI_file=change_map("map.txt", 42, 10, plateau)
 
             elif(UI_file=="metro.txt"):
                 if(x>=81 and y<=9):
-                    UI_file=change_map("map.txt", 40, 15, plateau, [9])
+                    UI_file=change_map("map.txt", 39, 17, plateau, [9])
                 elif(x>=71 and y>=13):
                     UI_file=change_map("cctv.txt", 55, 16, plateau, [6])
             elif(UI_file=="cctv.txt"):
@@ -166,14 +175,14 @@ def init():
                     hanoi.play(3, plateau)
             elif(UI_file=='museum.txt'):
                 if((x>=82 and y<=3) or  (x<=3 and y>=23)):
-                    UI_file=change_map("map.txt", 40, 15, plateau)
+                    UI_file=change_map("map.txt", 15, 17, plateau)
                 elif(x>=94 and y>=22):
                     list_cactus, avancement =cactus.init()
                     UI_file=change_map('jump.txt', 5, 20, plateau)
 
             elif(UI_file=='airport.txt'):
                 if(x>=81 and y>=21):
-                    UI_file=change_map('map.txt', 40, 15, plateau)
+                    UI_file=change_map('map.txt', 42, 3, plateau)
                 elif(x>=81 and y<=12):
                     UI_file=change_map('credits.txt', 8, 23, plateau)
             elif(UI_file=='credits.txt'):
@@ -182,9 +191,9 @@ def init():
 
 
         #print '--'+entry+'--'
-        if (strcmp(entry, 'T') or strcmp(entry, 't')):
+        '''if (strcmp(entry, 'T') or strcmp(entry, 't')):
             jump.generatemap(plateau)
-
+        '''
         if (strcmp(entry, 'M') or strcmp(entry, 'm')):
             UI_file=change_map("map.txt", 40, 15, plateau)
 
@@ -194,15 +203,19 @@ def init():
 
         if (strcmp(entry, 'D') or strcmp(entry, 'd')):
             controls.request_move(1, 0, plateau, UI_file)
+            UI.display_map(plateau)
 
         if (strcmp(entry, 'Z') or strcmp(entry, 'z') or strcmp(entry, '\x1b[A')):
             controls.request_move(0, -1, plateau, UI_file)
+            UI.display_map(plateau)
 
         if (strcmp(entry, 'Q') or strcmp(entry, 'q')):
             controls.request_move(-1, 0, plateau, UI_file)
+            UI.display_map(plateau)
 
         if (strcmp(entry, 'S') or strcmp(entry, 's')):
             controls.request_move(0, 1, plateau, UI_file)
+            UI.display_map(plateau)
 
         if (strcmp(entry, 'G') or strcmp(entry, 'g') and score==0):
             if GRAVITY:
@@ -211,6 +224,8 @@ def init():
             else:
                 GRAVITY=True
                 moves_in_air=0
+
+
 
         #print entry
 

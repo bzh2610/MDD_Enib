@@ -19,28 +19,34 @@ Entrée: valeurs du plateau en TR, TL,
                               BR, BL
 (TOP, MIDDLE, BOTTOM)
 '''
-def check_top_middle_bottom(top_temp, r, l, br, bl, letters):
+def check_top_middle_bottom(x ,y ,top_temp, r, l, br, bl, letters):
 
     top=False
     middle=False
     bottom=False
 
-    middle_right_chk=bottom_right_chk=middle_left_chk=bottom_left_chk=False
+    middle_right_chk=False
+    bottom_right_chk=False
+    middle_left_chk=False
+    bottom_left_chk=False
     # RIGHT
     for letter in letters:
-        top =   top or strcmp(top_temp, letter) #top= haut lettre 1
-        middle_right_chk= middle_right_chk or  strcmp(r, letter)
-        bottom_right_chk= bottom_right_chk or strcmp(br, letter)
+        top =   top or top_temp== letter #top= haut lettre 1
+        middle_right_chk= middle_right_chk or r==letter
+        bottom_right_chk= bottom_right_chk or br==letter
+
 
     # LEFT
     for letter in letters:
-        middle_left_chk= middle_left_chk or strcmp(l, letter)
-        bottom_left_chk= bottom_left_chk or strcmp(bl,letter)
+        middle_left_chk= middle_left_chk or l==letter
+        bottom_left_chk= bottom_left_chk or bl==letter
 
-
-    middle= middle_left_chk and middle_right_chk
-    bottom= bottom_left_chk and bottom_right_chk
-
+    if(x>0):
+        middle= middle_right_chk
+        bottom= bottom_right_chk
+    else:
+        middle= middle_left_chk
+        bottom= bottom_left_chk
 
     return top and middle and bottom
 
@@ -80,7 +86,7 @@ def request_move(x, y, plateau, UI_file):
             bottom_right=bottom_left='False'
 
 
-        free=check_top_middle_bottom(top, right, left, bottom_right, bottom_left, ['@', ' ', '&'])
+        free=check_top_middle_bottom(x, y, top, right, left, bottom_right, bottom_left, ['@', ' ', '&'])
 
         if  free and (position[1]+y-1)>0 and (position[1]+y+1<len(plateau)): #position[1]+y+1 = position + deplacement + tete personnage
             UI.write_player(position[0], position[1], plateau)
@@ -97,7 +103,7 @@ def move_player(x, y, plateau, UI_file): #Déplacer le perso
     UI.clear(UI_file, plateau)
     UI.load_board(UI_file, plateau)
     UI.write_player(position[0]+x, position[1]+y, plateau)
-    UI.display_map(plateau)
+
     tty.setraw(sys.stdin)
 
 def get_player_pos(plateau): #Obtenir les coordonnées du joueur sous forme de liste

@@ -1,1 +1,37 @@
-{"top_objective": "MTA==", "progress": "NQ==", "objectives": {"FR": ["Aller chez iSecure", "Aller dans le bureau du boss", "Hacker la TV (utiliser E)", "Sors du labyrinthe pour hacker la TV", "Rentre chez toi", "NEW MESSAGE, INCONNU: \"Je t'ai vu, RDV à la station metro\"", "MESSAGE, UNKNOWN: \"Get into the CCTV room\"", "MESSAGE, UNKNOWN: \"Erase iSecure tapes\"", "MESSAGE, UNKNOWN: \"Not bad, erase the metro tapes\"", "MESSAGE, UNKNOWN: \"Get out now.\"", "MESSAGE, UNKNOWN: \"Let's meet at the museum.\"", "\"You can't see me, but I see you.\"", ""], "EN": ["Go to iSecure office press E to enter the building", "Go to boss office", "Hack the TV", "Escape the maze to hack the TV", "Go home, don't be seen", "NEW MESSAGE, UNKNOWN: \"You were spotted, go to the metro station\"", "NEW MESSAGE, UNKNOWN: \"Get into the CCTV room\"", "NEW MESSAGE, UNKNOWN: \"Erase iSecure tapes\"", "NEW MESSAGE, UNKNOWN: \"Not bad, erase the metro tapes\"", "NEW MESSAGE, UNKNOWN: \"Get out now.\"", "NEW MESSAGE, UNKNOWN: \"Let's meet at the museum.\"", "\"You can't see me, but I see you.\"", ""]}, "language": "FR"}
+{
+    "language": "FR", 
+    "objectives": {
+        "EN": [
+            "Go to iSecure office press E to enter the building", 
+            "Go to boss office", 
+            "Hack the TV", 
+            "Escape the maze to hack the TV", 
+            "Go home, don't be seen", 
+            "NEW MESSAGE, UNKNOWN: \"You were spotted, go to the metro station\"", 
+            "NEW MESSAGE, UNKNOWN: \"Get into the CCTV room\"", 
+            "NEW MESSAGE, UNKNOWN: \"Erase iSecure tapes\"", 
+            "NEW MESSAGE, UNKNOWN: \"Not bad, erase the metro tapes\"", 
+            "NEW MESSAGE, UNKNOWN: \"Get out now.\"", 
+            "NEW MESSAGE, UNKNOWN: \"Let's meet at the museum.\"", 
+            "\"You can't see me, but I see you.\"", 
+            ""
+        ], 
+        "FR": [
+            "Aller chez iSecure", 
+            "Aller dans le bureau du boss", 
+            "Hacker la TV (utiliser E)", 
+            "Sors du labyrinthe pour hacker la TV", 
+            "Rentre chez toi", 
+            "NEW MESSAGE, INCONNU: \"Je t'ai vu, RDV à la station metro\"", 
+            "MESSAGE, UNKNOWN: \"Get into the CCTV room\"", 
+            "MESSAGE, UNKNOWN: \"Erase iSecure tapes\"", 
+            "MESSAGE, UNKNOWN: \"Not bad, erase the metro tapes\"", 
+            "MESSAGE, UNKNOWN: \"Get out now.\"", 
+            "MESSAGE, UNKNOWN: \"Let's meet at the museum.\"", 
+            "\"You can't see me, but I see you.\"", 
+            ""
+        ]
+    }, 
+    "progress": "Ng==", 
+    "top_objective": "MTA=="
+}

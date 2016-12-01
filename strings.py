@@ -15,6 +15,10 @@ def strcmp(a, b): #Compare deux chaines de texte
     if a in b:
         if b in a:
             return True
+        else:
+            return False
+    else:
+        return False
 
 #Used to reset terminal to original settings after exiting the game
 def get_orig_settings():
@@ -36,6 +40,11 @@ def get_current_level():
 def init_level():
     global current_level
     current_level=0
+    return True
+
+def set_level(param):
+    global current_level
+    current_level=param
     return True
 
 #Increment level
