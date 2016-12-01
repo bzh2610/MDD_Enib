@@ -129,6 +129,20 @@ if __name__ == '__main__':
     if(not(hanoe[0][3]==7 and hanoe[1][1]==0)):
             print 'hanoi.init() test error'
 
+
+    #Test request_move
+    UI.write_player(15,15, plate)
+    controls.request_move(1,0,plate, 'map.txt')
+    position=controls.get_player_pos(plate)
+    if not(position[0]==16 and position[1]==15):
+        print 'controls.request_move() test error'
+
+    #Test move_player
+    controls.move_player(1, 0, plate, 'map.txt')
+    if(plate[14][16]==get_head_symbol()):
+        print 'controls.move_player() test error'
+
+
     #Test check_top_middle_bottom
     #Déplacement invalide
     position=controls.get_player_pos(plate)
@@ -147,38 +161,7 @@ if __name__ == '__main__':
 
     free=controls.check_top_middle_bottom(x, y, top, right, left, bottom_right, bottom_left, ['@', ' ', '&'])
     if(free):
-        print 'controls.check_top_middle_bottom 1st_test error()'
-
-    #Test check_top_middle_bottom
-    #Déplacement valide
-    y=0
-    x=1
-    position=controls.get_player_pos(plate)
-    top=plate[position[1]+y-1][position[0]+x]
-    left=plate[position[1]+y][position[0]+x-1]
-    right=plate[position[1]+y][position[0]+x+1]
-
-    if(position[1]+y+1<len(plate)):
-        bottom_left=plate[position[1]+y+1][position[0]+x-1]
-        bottom_right=plate[position[1]+y+1][position[0]+x+1]
-    else:
-        bottom_right=bottom_left='False'
-    free=controls.check_top_middle_bottom(x, y, top, right, left, bottom_right, bottom_left, ['@', ' ', '&'])
-    if(not(free)):
-        print 'controls.check_top_middle_bottom 2nd_test error()'
-
-
-    #Test request_move
-    UI.write_player(15,15, plate)
-    controls.request_move(1,0,plate, 'map.txt')
-    position=controls.get_player_pos(plate)
-    if not(position[0]==16 and position[1]==15):
-        print 'controls.request_move() test error'
-
-    #Test move_player
-    controls.move_player(1, 0, plate, 'map.txt')
-    if(plate[14][16]==get_head_symbol()):
-        print 'controls.move_player() test error'
+        print 'controls.check_top_middle_bottom test error()'
 
     params=termios.tcgetattr(sys.stdin)
     set_orig_settings()

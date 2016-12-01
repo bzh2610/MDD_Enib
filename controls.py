@@ -41,12 +41,9 @@ def check_top_middle_bottom(x ,y ,top_temp, r, l, br, bl, letters):
         middle_left_chk= middle_left_chk or l==letter
         bottom_left_chk= bottom_left_chk or bl==letter
 
-    if(x>0):
-        middle= middle_right_chk
-        bottom= bottom_right_chk
-    else:
-        middle= middle_left_chk
-        bottom= bottom_left_chk
+
+    middle= middle_right_chk and middle_left_chk
+    bottom= bottom_right_chk and bottom_left_chk
 
     return top and middle and bottom
 
@@ -82,6 +79,7 @@ def request_move(x, y, plateau, UI_file):
         if(position[1]+y+1<len(plateau)):
             bottom_left=plateau[position[1]+y+1][position[0]+x-1]
             bottom_right=plateau[position[1]+y+1][position[0]+x+1]
+            print bottom_right
         else:
             bottom_right=bottom_left='False'
 
