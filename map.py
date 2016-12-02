@@ -115,6 +115,11 @@ def init():
                     UI_file=change_map('airport.txt', 77, 23, plateau)
                 elif (x==1 and y==2):
                     UI_file=change_map('castle_1.txt', 6, 26, plateau)
+                elif(x==5 and y==1):
+                    UI_file=change_map('post_office.txt', 54, 22, plateau)
+                elif(x==2 and y==1):
+                    UI_file=change_map('iStore.txt', 57, 21, plateau)
+
                 '''elif (x==3 and y==2):
                     #UI_file=change_map('jump.txt', 40, 13, plateau)
                     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
@@ -122,11 +127,8 @@ def init():
                     print '• Score at least 200 to pass'
                     list_cactus, avancement =cactus.init()
                     UI_file=change_map('jump.txt', 5, 20, plateau)
-                elif(x==5 and y==1):
-                    UI_file=change_map('post_office.txt', 54, 3, plateau)
-                elif(x==2 and y==1):
-                    UI_file=change_map('iStore.txt', 57, 21, plateau)
                 '''
+
 
             elif(UI_file=="post_office.txt"):
                 if(x>=59 and y>=18): #Joueur sur la case de sortie
