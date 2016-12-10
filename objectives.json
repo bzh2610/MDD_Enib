@@ -14,7 +14,7 @@
             "NEW MESSAGE, UNKNOWN: \"Get out now.\"", 
             "NEW MESSAGE, UNKNOWN: \"Let's meet at the museum.\"", 
             "\"You can't see me, but I see you.\"", 
-            ""
+            "-to ADD-"
         ], 
         "FR": [
             "Aller chez iSecure", 
@@ -29,9 +29,9 @@
             "MESSAGE, UNKNOWN: \"Get out now.\"", 
             "MESSAGE, UNKNOWN: \"Let's meet at the museum.\"", 
             "\"You can't see me, but I see you.\"", 
-            ""
+            "2 add"
         ]
     }, 
-    "progress": "Ng==", 
+    "progress": "MTI=", 
     "top_objective": "MTA=="
 }

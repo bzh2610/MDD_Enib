@@ -25,6 +25,7 @@ def string_to_list(string):
     return liste
 
 def check_combinations(nomber_mystere, entry, essai):
+    print nomber_mystere
     nomber_mystere_copy=string_to_list(nomber_mystere)
 
     #si l'entrée est au moins aussi longue que le nombre mystere
@@ -52,13 +53,13 @@ def check_combinations(nomber_mystere, entry, essai):
         for i in range (0, len(entry)):
             for j in range (0, len(nomber_mystere_copy)):
                 if entry_copy[i]==nomber_mystere_copy[j] and entry_copy[i]!='*':
-                    print 'mal placé '+entry[i]+'-'+nomber_mystere_copy[j]
+                    #   print 'mal placé '+entry[i]+'-'+nomber_mystere_copy[j]
                     mal_place+=1
                     entry_copy[i]='*'
                     nomber_mystere_copy[j]='*'
 
         print (bien_place)
-        output="Sont bien placés\n\n"+str(mal_place)+" mal placés\n"+str(len(nomber_mystere)-(pions_bien_place+mal_place))+" inccorect"
+        output=str(mal_place)+" mal placés\n"+str(len(nomber_mystere)-(pions_bien_place+mal_place))+" inccorect"
 
         print output
 
@@ -72,20 +73,24 @@ def play(nomber_mystere, essai=0):
     nomber_mystere=str(nomber_mystere)
     #print nomber_mystere
     if(essai==0):
-        print "Le système de fichiers de l'entreprise a été crypté, je dois lancer une attaque par brut-force afin de le retrouver..."
+        print "~~~~~~~~~~~~~~~~~~\n|    Mastermind    |\n~~~~~~~~~~~~~~~~~~\n\n"
+        print "• Type 'exit' to quit\n"
         print "Password length: "+str(len(nomber_mystere))
 
     entry=str(raw_input(">")) #On utilise raw_input:
     # input interprête du python: une entrée commençant par 0
     #sera interprêtée comme octale et fera planter le code
-    check_combinations(nomber_mystere, entry, essai)
+    if(entry!='exit'):
+        check_combinations(nomber_mystere, entry, essai)
 
-    if nomber_mystere==entry:
-        print "Le nombre était:"+nomber_mystere
-        print "OK, réussi en "+str(essai)+" essais."
-        return
-    else:
-        play(nomber_mystere, essai+1)
+        if nomber_mystere==entry:
+            print "Le nombre était:"+nomber_mystere
+            print "OK, réussi en "+str(essai)+" essais."
+            return
+        else:
+            play(nomber_mystere, essai+1)
 
+def load():
+    play(randint(0, 9999))
 #play(randint(0, 9999))
-play(8825)
+#play(8825)

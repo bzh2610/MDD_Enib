@@ -53,5 +53,6 @@ def increase_level(i=0):
     global current_level
     current_level+=1
 
+
     if(i>0):
         current_level=int(i)
