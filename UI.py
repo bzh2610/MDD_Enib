@@ -92,7 +92,7 @@ def load_board(UI_file, plateau):
 
 
     #Si une carte est chargée, afficher l'objectif
-    elif(os.path.basename(UI_file) != 'menu.txt'):
+    elif(os.path.basename(UI_file) != 'menu.txt' and os.path.basename(UI_file) != 'tutorial.txt'):
         plateau[jmax+1][imax+1]
         current_level=get_current_level()
         current_objective=IO.load_objective(current_level)

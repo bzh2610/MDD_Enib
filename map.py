@@ -104,7 +104,7 @@ def init(tutorial=False):
                 elif (x==1 and y==3):
                     UI_file=change_map('museum.txt', 4, 23, plateau)
                 elif (x==1 and y==2):
-                    UI_file=change_map('castle_1.txt', 6, 26, plateau)
+                    UI_file=change_map('castle_1.txt', 6, 26, plateau, [12])
 
                 elif(x==2 and y==1):
                     UI_file=change_map('iStore.txt', 57, 21, plateau)
@@ -115,19 +115,32 @@ def init(tutorial=False):
                     UI_file=change_map('metro.txt', 75, 7, plateau, [5])
 
                 elif (x==4 and y==1):
-                    UI_file=change_map('airport.txt', 77, 23, plateau)
+                    UI_file=change_map('airport.txt', 77, 23, plateau, [17])
                 elif (x==4 and y==2):
                     UI_file=change_map('steve_home.txt', 53, 22, plateau, [4])
 
                 elif(x==5 and y==1):
                     UI_file=change_map('post_office.txt', 54, 20, plateau)
                 elif(x==5 and y==3):
-                    UI_file=change_map('arcade.txt', 70, 19, plateau)
+                    UI_file=change_map('arcade.txt', 70, 19, plateau, [10])
 
 
             elif(UI_file=="post_office.txt"):
                 if(x>=59 and y>=17): #Joueur sur la case de sortie
                     UI_file=change_map('map.txt', 58, 6, plateau)
+            elif(UI_file=="castle_1.txt"):
+                if(x<=3 and y<=15):
+                    UI_file=change_map('map.txt', 15, 10, plateau, [15])
+                if(x==42 and y<=26 and y>=22):
+                    UI_file=change_map('theatre.txt', 89, 26, plateau,[13])
+
+            elif(UI_file=="theatre.txt"):
+                if(x<=10 and y<=26):
+                    UI_file=change_map('theatre2.txt', x, y, plateau, [14])
+
+            elif(UI_file=="theatre2.txt"):
+                if(x>=92 and y>=24):
+                    UI_file=change_map('castle_1.txt', 42, 26, plateau)
 
             elif(UI_file=="arcade.txt"):
                 if(x>=92 and y>=17): #Joueur sur la case de sortie
@@ -155,6 +168,8 @@ def init(tutorial=False):
                     print 'JUMP !'
                     print '• Press SPACE to jump'
                     print '• Score at least 200 to pass'
+                    print 'PRESS ENTER TO CONTINUE'
+                    entree=sys.stdin.read(1)
                     list_cactus, avancement =cactus.init()
                     UI_file=change_map('jump.txt', 5, 20, plateau)
                 elif(x>=4 and y<=12):
@@ -212,8 +227,8 @@ def init(tutorial=False):
             elif(UI_file=='airport.txt'):
                 if(x>=81 and y>=21):
                     UI_file=change_map('map.txt', 42, 3, plateau)
-                elif(x>=81 and y<=12):
-                    UI_file=change_map('credits.txt', 8, 23, plateau)
+                elif(x>=81 and y<=12 and get_current_level()==18):
+                    UI_file=change_map('credits.txt', 8, 23, plateau, [18])
             elif(UI_file=='credits.txt'):
                 if(x>=81 and y>=21):
                     UI_file=change_map('map.txt', 40, 15, plateau)
@@ -228,7 +243,8 @@ def init(tutorial=False):
             avancement=0
             UI_file=change_map("map.txt", 40, 15, plateau)
 
-        #Log
+        if (strcmp(entry, 'K') or strcmp(entry, 'k')):
+            print get_current_level()
         if (strcmp(entry, 'L') or strcmp(entry, 'l')):
             print controls.get_player_pos(plateau)
 
@@ -297,14 +313,19 @@ def init(tutorial=False):
         if(UI_file=="jump.txt" and GRAVITY):
             x,y=controls.get_player_pos(plateau)
             if(strcmp(plateau[y+2][x], '|') or strcmp(plateau[y+1][x], '|') or strcmp(plateau[y][x+2], '|') or strcmp(plateau[y+1][x+2], '|') ):
+
+                if(score >=100):
+                    print 'Congrats, you reached the target score !'
+                    temp_level=IO.get_current_level()
+                    if(temp_level==16):
+                        increase_level()
+                        IO.save_progress()
+                print 'Press Q to exit, any other key to retry :'
                 GRAVITY=False
                 iteration_compteur=0
                 score=0
-
-                if(score >=200):
-                    print 'Congrats, you reached the target score !'
-                print 'Press Q to exit, any other key to retry :'
                 entry=sys.stdin.read(1)[0]
+
                 if(entry=='Q' or entry=="q"):
                     if(score >=200):
                         UI_file=change_map("map.txt", 40, 15, plateau, [10])
@@ -319,16 +340,17 @@ def init(tutorial=False):
         elif(UI_file=="platform.txt" and GRAVITY):
             x,y=controls.get_player_pos(plateau)
             if(y>palier):
-                GRAVITY=False
-                score=0
-                avancement=0
+
 
                 if(score >=20):
                     print 'Congrats, you reached the target score !'
                 print 'Press Q to exit, any other key to retry :'
                 entry=sys.stdin.read(1)[0]
+                GRAVITY=False
+                score=0
+                avancement=0
                 if(entry=='Q' or entry=="q"):
-                    if(score >=200):
+                    if(score >=20):
                         list_obstacles, avancement = platform.init(False, list_obstacles, map, avancement)
                         UI_file=change_map("platform.txt", 13, 19, plateau, [10])
                     else:

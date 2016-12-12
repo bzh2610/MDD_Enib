@@ -1,7 +1,8 @@
 
 # coding: utf8
 from random import randint
-
+import IO
+from strings import *
 '''
 Prototype:
 string_to_list():
@@ -70,7 +71,7 @@ def check_combinations(nomber_mystere, entry, essai):
 
 
 def play(nomber_mystere, essai=0):
-    nomber_mystere=str(nomber_mystere)
+    nomber_mystere=str(nomber_mystere).zfill(4)
     #print nomber_mystere
     if(essai==0):
         print "~~~~~~~~~~~~~~~~~~\n|    Mastermind    |\n~~~~~~~~~~~~~~~~~~\n\n"
@@ -86,11 +87,15 @@ def play(nomber_mystere, essai=0):
         if nomber_mystere==entry:
             print "Le nombre était:"+nomber_mystere
             print "OK, réussi en "+str(essai)+" essais."
-            return
+            temp_level=IO.get_current_level()
+            if(temp_level==11):
+                increase_level()
+                IO.save_progress()
+            return True
         else:
             play(nomber_mystere, essai+1)
 
 def load():
-    play(randint(0, 9999))
+    play(randint(0, 1))
 #play(randint(0, 9999))
 #play(8825)

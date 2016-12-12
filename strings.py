@@ -8,7 +8,7 @@ Fonctions:
 import tty, os, termios, sys, random
 global_orig_settings=termios.tcgetattr(sys.stdin)
 global_head_symbol='☺'
-current_level=0;
+current_level=0
 
 #Compares two strings a and b
 def strcmp(a, b): #Compare deux chaines de texte
@@ -40,7 +40,10 @@ def get_current_level():
 def init_level():
     global current_level
     current_level=0
-    return True
+    if(get_current_level()==0):
+        return True
+    else:
+        return False
 
 def set_level(param):
     global current_level

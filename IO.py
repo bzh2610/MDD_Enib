@@ -19,13 +19,12 @@ plateau=[]
 #Retourne la langue utilisée dans le jeu
 #FR ou EN
 def get_language():
-    data={}
-    with codecs.open(repertoire + '/objectives.json', 'r', encoding='utf-8') as file_:
-        data = json.load(file_)
-    file_.close
+    data_file=codecs.open(repertoire + '/objectives.json', 'r', encoding='utf-8')
+    data = json.loads(data_file.read())
+    data_file.close()
 
     try:
-        if data['progress']:
+        if data['language']:
             return data['language']
         else:
             return 'FR'
@@ -37,17 +36,13 @@ def get_language():
 #Ecrit la langue utilisée dans le jeu
 def set_language(language='FR'):
     data=load_objective()
-    if(strcmp(language, 'FR') or strcmp(language, 'EN')):
-        data['language']=language
-        return_value=True
-    else:
-        return_value=False
-    if return_value:
-
-        with codecs.open(repertoire + '/objectives.json', "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
-        f.close()
-    return return_value
+    #print data
+    #print language
+    data['language']=language
+    with codecs.open(repertoire + '/objectives.json', "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
+    f.close()
+    return True
 
 
 #Lire les objectifs jSON,
@@ -87,7 +82,7 @@ def save_progress(init=False):
     f.close()
 
 def erase_progress():
-    with codecs.open(repertoire + '/objectives.json') as data_file:
+    with codecs.open(repertoire + '/objectives.json', 'r', encoding="utf-8") as data_file:
         data = json.load(data_file)
 
     try:
@@ -99,6 +94,8 @@ def erase_progress():
     with codecs.open(repertoire + '/objectives.json', 'w', encoding="utf-8") as f:
         json.dump(data, f,indent=4, sort_keys=True,  ensure_ascii=False)
     f.close()
+
+    init_level()
 
 
 

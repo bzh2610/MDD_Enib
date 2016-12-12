@@ -15,8 +15,9 @@ Dear hackers, scroll up for test results
 Help:
      • play       play the game
      • skip       play but skip the intro (terminal hack)
-     • help       read tutorial
+     • help       list commands
      • language   change the language of the game
      • rm ./save  remove the current progress
+     • tutorial   read tutorial
      • exit       quit the game
 ___________________________________________________________
