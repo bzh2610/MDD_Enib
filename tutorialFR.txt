@@ -1,0 +1,27 @@
+=====================================================================================
+|                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                      |
+|                       |  Utiliser Z,Q,S,D pour se déplacer  |                     |
+|                       |                                     |                     |
+|                       |      Utiliser E pour interagir :    |                     |
+|                       | Entrer/sortir, hacker quelque chose |                     |
+|                       |                                     |                     |
+|                       |   Utiliser M pour revenir au menu   |                     |
+|                       |              principal              |                     |
+|                       |                                     |                     |
+|                       | Utiliser ESC pour retourner au menu |                     |
+|                       |                                     |                     |
+|                       |  Triche: Utiliser i pour passer     |                     |
+|                       |          au niveau suivant          |                     |
+|                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                      |
+|                                                                                   |
+|                                                                                   |
+|                                                                                   |
+|                                                                                   |
+|                                                                                   |
+|                                                                                   |
+|                                                                                   |
+|                                                                                  E|
+|                                                                                  X|
+|                                                                                  I|
+|                                                                                  T|
+|===================================================================================|

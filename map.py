@@ -72,12 +72,15 @@ def init(tutorial=False):
     for j in range(31):
         plateau.append([' '] * 100) #3 lignes, 20 caracteres
 
-
+    language=IO.get_language()
     UI.write_player(0,0, plateau)
     if(not tutorial):
         UI_file=change_map("map.txt", 40, 15, plateau, [9])
     else:
-        UI_file=change_map('tutorial.txt', 7, 22, plateau)
+        if(language=='FR'):
+            UI_file=change_map('tutorialFR.txt', 7, 22, plateau)
+        else:
+            UI_file=change_map('tutorial.txt', 7, 22, plateau)
 
 
 
@@ -233,7 +236,7 @@ def init(tutorial=False):
                 if(x>=81 and y>=21):
                     UI_file=change_map('map.txt', 40, 15, plateau)
 
-            elif(UI_file=='tutorial.txt'):
+            elif(UI_file=='tutorial.txt' or UI_file=='tutorialFR.txt'):
                 if(x>=81 and y>=20):
                     break
 
