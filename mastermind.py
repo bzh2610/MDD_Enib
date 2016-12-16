@@ -96,6 +96,5 @@ def play(nomber_mystere, essai=0):
             play(nomber_mystere, essai+1)
 
 def load():
-    play(randint(0, 1))
-#play(randint(0, 9999))
+    play(randint(0, 9999))
 #play(8825)

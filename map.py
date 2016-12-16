@@ -170,7 +170,7 @@ def init(tutorial=False):
                     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, get_orig_settings())
                     print 'JUMP !'
                     print '• Press SPACE to jump'
-                    print '• Score at least 200 to pass'
+                    print '• Score at least 100 to pass'
                     print 'PRESS ENTER TO CONTINUE'
                     entree=sys.stdin.read(1)
                     list_cactus, avancement =cactus.init()
